@@ -1,0 +1,1 @@
+MCWorkingCopy allManagers		do: [:each | each repositoryGroup addRepository: (MCHttpRepository new location:  'http://www.squeaksource.com/Ladrillos';    user: '';    password: '')]
