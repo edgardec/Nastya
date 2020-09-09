@@ -1,0 +1,1 @@
+'From Squeak6.0alpha of 15 May 2020 [latest update: #19674] on 9 September 2020 at 9:18:39 am'!!Experiments methodsFor: 'urls' stamp: 'edc 9/9/2020 09:15'!markdown	| path |		self class externalFolder: 'markdown'.		path := FileDirectory default pathName.	^ (StandardFileStream readOnlyFileNamed: path , '/markdown/index.html') contents.! !
