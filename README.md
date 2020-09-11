@@ -14,4 +14,6 @@ World color: (Color r: 0.129 g: 0.387 b: 0.226)
 
 The type 
 
-WasmLivingBookVersion applyUpdatesFromDisk double click and select button for it, see picture
+WasmLivingBookVersion applyUpdatesFromDisk double click and select button for it
+
+https://github.com/edgardec/Nastya/blob/master/Screen%20Shot%202020-09-10%20at%2017.05.02.png
