@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: white;
+      margin: 0;
+    }
+
+    noscript,
+    #error {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      white-space: pre;
+    }
+
+    #error {
+      padding: 100px;
+      display: none;
+    }
+
+    .wasm-banner {
+      background-color: #ffeec8;
+      padding: 10px;
+      border-bottom: 2px solid #efd293;
+      color: #9e6d00;
+    }
+
+    .resume {
+      display: flex;
+      flex-wrap: wrap;
+      font-family: 'Roboto', sans-serif;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 3px;
+    }
+
+    .resume-left-column,
+    .resume-right-column {
+      margin: 20px;
+    }
+
+    .resume-left-column {
+      flex-grow: 1;
+      max-width: 600px;
+    }
+
+    .resume-right-column {
+      min-width: 260px;
+    }
+
+    .job-company {
+      margin-bottom: 3px;
+    }
+
+    .job-title {
+      font-style: italic;
+      margin-bottom: 5px;
+    }
+
+    .job-dates {
+      font-size: 0.8em;
+    }
+
+    .previous-employment {
+      color: gray;
+    }
+
+    @media print {
+      .wasm-banner {
+        display: none;
+      }
+
+      .resume {
+        flex-wrap: nowrap;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    Sorry, this resume requires JavaScript because it's also a demo of WebAssembly.
+  </noscript>
+  <div id="error">An unknown error occured.</div>
+  <script>
+    function escapeHTML(str){
+      var p = document.createElement('p');
+      p.appendChild(document.createTextNode(str));
+      return p.innerHTML;
+    }
+    function showError(e) {
+      var msg = 'Error: ' + escapeHTML(e.message) + '\n\n You can view Jay\'s resume here: <a href="https://www.linkedin.com/in/phelpsjay">https://www.linkedin.com/in/phelpsjay</a>';
+      var el = document.getElementById('error');
+      el.innerHTML = msg;
+      el.style.display = 'block';
+    }
+    window.onerror = function (message, source, lineno, colno, e) {
+      showError(e);
+    };
+  </script>
+  <script src="./main.js"></script>
+</body>
+</html>
