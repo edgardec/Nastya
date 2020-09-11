@@ -1,0 +1,1 @@
+'From Squeak6.0alpha of 6 September 2020 [latest update: #19838] on 11 September 2020 at 8:05:37 am'!!Experiments methodsFor: 'urls' stamp: 'edc 9/11/2020 08:04'!hotel	self class externalFolder: 'Hotel'.	self page: nil.	self pageAdd: (StandardFileStream readOnlyFileNamed: self filePath + 'index.html') contents.	^ self page! !
