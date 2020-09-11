@@ -1,0 +1,1 @@
+'From Squeak6.0alpha of 6 September 2020 [latest update: #19838] on 11 September 2020 at 6:46:48 am'!!Experiments methodsFor: 'urls' stamp: 'edc 9/11/2020 06:46'!chasm	| path |	self class externalFolder: 'chasm/docs'.	path := self filePath.	^ (StandardFileStream readOnlyFileNamed: path , 'index.html') contents! !
