@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <style>
+      .a {
+        background-color: red;
+      }
+      .b {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="a">123</div>
+
+    <div>456</div>
+
+    <script>
+      var banner = document.createElement("div");
+      banner.className = "b";
+      banner.innerHTML = "Banner Content";
+
+      var content = document.getElementsByClassName("a")[0];
+      content.parentNode.insertBefore(banner, content);
+    </script>
+  </body>
+</html>
