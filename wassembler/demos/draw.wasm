@@ -1,0 +1,103 @@
+import func flipBuffer(i32) void;
+
+memory {
+  align 4;
+  phase: zero 4;
+
+  align 4;
+  frame_buffer: zero 4;
+
+  bitmap: hex
+    0000000000000000
+    0000ff0000ff0000
+    0000ff0000ff0000
+    0000000000000000
+    ff000000000000ff
+    00ff00000000ff00
+    0000ffffffff0000
+    0000000000000000;
+}
+
+func sampleBitmap(x f32, y f32) i32 {
+  var xi i32 = i32(x * 8.0f);
+  if (xi < 0) { return 0; }
+  if (xi >= 8) { return 0; }
+  var yi i32 = i32(y * 8.0f);
+  if (yi < 0) { return 0; }
+  if (yi >= 8) { return 0; }
+  return i32(loadI8(bitmap + yi * 8 + xi));
+}
+
+func shade(x f32, y f32, t f32) i32 {
+  var xOff f32 = x - 0.5f;
+  var yOff f32 = y - 0.5f;
+  var rsq f32 = xOff * xOff + yOff * yOff;
+  var radius f32 = sqrtF32(rsq);
+  var r f32 = cosF32(radius * 100.0f - t * 3.0f);
+  var g f32 = x;
+  var b f32 = y;
+  var a f32 = 1.0f;
+  if (sampleBitmap(x, y)) {
+    r = 1.0f - r;
+    g = 1.0f - g;
+    b = 1.0f - b;
+  }
+  return packColor(r, g, b, a);
+}
+
+// Convert [0.0, 1.0] to [0, 255].
+func f2b(v f32) i32 {
+  var vi i32 = i32(v * 255.0f);
+  if (vi < 0) {
+    vi = 0;
+  }
+  if(vi > 255) {
+    vi = 255;
+  }
+  return vi;
+}
+
+// Convert a linear color value to a gamma-space byte.
+// Square root approximates gamma-correct rendering.
+func l2g(v f32) i32 {
+  return f2b(sqrtF32(v));
+}
+
+func packColor(r f32, g f32, b f32, a f32) i32 {
+  return f2b(a) << 24 | l2g(b) << 16 | l2g(g) << 8 | l2g(r);
+}
+
+func renderBuffer(buffer i32, p f32) void {
+  var y i32 = 0;
+  while (y < 256) {
+    var yAmt f32 = f32(y) / 256.0f;
+    var x i32 = 0;
+    while (x < 256) {
+      var xAmt f32 = f32(x) / 256.0f;
+      var color i32 = shade(xAmt, yAmt, p);
+      storeI32(buffer + (y * 256 + x) * 4, color);
+      x = x + 1;
+    }
+    y = y + 1;
+  }
+}
+
+func render() void {
+  var buffer i32 = loadI32(frame_buffer);
+  var p f32 = loadF32(phase);
+  renderBuffer(buffer, p);
+  flipBuffer(buffer);
+}
+
+export func frame(dt f32) void {
+  storeF32(phase, loadF32(phase) + dt);
+  render();
+}
+
+export func main() void {
+  // Allocate the frame buffer.
+  storeI32(frame_buffer, sbrk(256 * 256 * 4));
+
+  // Render the first frame.
+  render();
+}
