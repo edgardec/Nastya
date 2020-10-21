@@ -1,0 +1,172 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- #BeginTemplate "/Templates/DescubriendoSqueak.dwt" --><!-- #BeginEditable "doctitle" --> 
+<title>DescubriendoSqueak</title>
+<!-- #EndEditable --></head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p>
+  </p><center>
+    
+  <p><img src="MorphsLayering.htm_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> </p>
+  <!-- #BeginEditable "MiTexto" --> 
+  <h1>Morphs Layering</h1>
+  <h2 align="left">1) Manipulación directa:</h2>
+  <p align="left">Buscar en la parte inferior el tab que dice Supplies, moverlo 
+    hacia arriba</p>
+  <p align="left"><img src="MorphsLayering.htm_files/Tabs.gif" align="left" height="60" width="442"></p>
+  <p align="left">&nbsp;</p>
+  <p align="left">Elija Ellipse y arrastre fuera del tab.</p>
+  <p align="left">Presione Alt click para ver el halo, elegir el botón 
+    Duplicate, para obtener el segundo dibujo.<br>
+    <img src="MorphsLayering.htm_files/MorphsLayering.jpg" height="139" width="180"><img src="MorphsLayering.htm_files/MorphsLayering2.jpg" height="68" width="143"><img src="MorphsLayering.htm_files/MorphsLayering3.jpg" height="118" width="199"></p>
+  <p align="left">&nbsp;</p>
+  <p align="left">Seleccionar cada Ellipse , hacer que salga el halo, elegir el 
+    gotero , cambiar los colores para ver<br>
+  </p>
+  <p align="left"><img src="MorphsLayering.htm_files/MorphsLayering4.jpg" height="66" width="112"> 
+    La ellipse amarilla esta en la capa inferior , mientras que la azul en la 
+    superior </p>
+  <p align="left">&nbsp;</p>
+  <h2 align="left">2) Manipulación por código:</h2>
+  <p align="left">Abrir un Workspace (COMAND K o ALT K) o de los flaps</p>
+  <p align="left">Escribir</p>
+  <p align="left">| e e2 e3 e4| "Declaramos las variables qiue vamos a usar 
+    , si ya se Diego, nombres"<br>
+    e _ EllipseMorph new openInWorld. "Creamos un objeto de la clase EllipseMorph"</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">Si queremos saber que sabe hacer este objeto, seleccionamos 
+    EllipseMorph con doble click y luego hacemos comando B, para abrir un Browser.<img src="MorphsLayering.htm_files/MorphsLayering5.jpg" align="right" height="194" width="347"></p>
+  <p align="left">Si qiuerempos ver la herencia, en el Browser seleccionamos el 
+    boton hierarchy , con lo que nos aparecera el Hierarchy Browser, podemos ver 
+    que hereda de BorderedMorph, que a su vez hereda de Morph.</p>
+  <p align="left">Con lo que conocerá todos los métodos propios, 
+    mas los de .BorderedMorph, mas los de Morph</p>
+  <p align="left">Morph es la clase que da las bases y sustento a todo el "edificio" 
+    del actual Squeak, y es la razon del "amor / odio" de muchos.</p>
+  <p align="left">En la categoriua geometry encontramos algunos metodos que vamos 
+    a aplicar ahora.</p>
+  <p align="left">Escribimos en el siguiente renglon del Workspace</p>
+  <p align="left">e2 _ e copy. "Hemos hecho una copia del objeto, Smalltalk 
+    80 puro"</p>
+  <p align="left">e2 center: e center +(10@0) asPoint. " le decimos al segundo 
+    objeto que se desplace 10 puntos a ls derecha con respecto a su centro"</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">e2 color: Color red. " le decimos al segundo objeto que 
+    queremos que su color sea rojo"</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">e2 openInWorld. " le decimos al segundo objeto que deseamos 
+    verlo en el mundo actual"</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">El código completo para producir el dibujo de las cuatro 
+    elipses coloreadas seró</p>
+  <p align="left">| e e2 e3 e4 |<br>
+    e _ EllipseMorph new openInWorld.<br>
+    e2 _ e copy.<br>
+    e2 center: e center +(10@0) asPoint..<br>
+    e2 color: Color red.<br>
+    e2 openInWorld.<br>
+    e3 _ e2 copy.<br>
+    e3 center: e2 center +(10@0) asPoint..<br>
+    e3 color: Color green.<br>
+    e3 openInWorld.<br>
+    e4 _ e3 copy.<br>
+    e4 center: e3 center +(10@0) asPoint..<br>
+    e4 color: Color blue.<br>
+    e4 openInWorld..<br>
+    e5 _ e4 copy.<br>
+    e5 center: e4 center +(10@0) asPoint..<br>
+    e5 color: Color random.<br>
+    e5 openInWorld</p>
+  <p align="left">Todo Morph puede actuar como contenedor de otros Morphs.</p>
+  <p align="left">Ejemplo::</p>
+  <p align="left">si agregamos las siguientes lineas.</p>
+  <p align="left">m _ Morph new.<br>
+    m color: Color white.<br>
+    m extent: 100@100.<br>
+    m openInWorld.</p>
+  <p align="left">y ejecutamos, el cuadrado blanco estara encima de las elipses 
+    y estas no se verán.</p>
+  <p align="left">Manipulación directa:</p>
+  <p align="left">Presione Alt click para ver el halo, elegir el botón 
+    Menu para obtener:</p>
+  <p align="left"><img src="MorphsLayering.htm_files/MorphsLayering6.gif" align="left" height="280" width="168"> 
+    Aqui seleccionamos send to back y el cuadrado quedara debajo de todas las 
+    elipses.</p>
+  <p align="left">Seleccionando cada elipse, podremos eleguir el orden en que 
+    estaran "apiladas".. Experimentar tamben con bring to front y enbed 
+    into.</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">Manipulación por código:</p>
+  <p align="left">| e e2 e3 e4 e5 m|<br>
+    m _ BorderedMorph new.<br>
+    m color: Color white.<br>
+    m extent: 100@100.<br>
+    m openInWorld.<br>
+    e _ EllipseMorph new .<br>
+    e center: m center.<br>
+    m addMorph: e.<br>
+    e2 _ e copy.<br>
+    e2 color: Color red.<br>
+    m addMorph: e2.<br>
+    e3 _ e2 copy.<br>
+    e3 color: Color green.<br>
+    m addMorph: e3 .<br>
+    e4 _ e3 copy.<br>
+    e4 color: Color blue.<br>
+    m addMorph: e4 .<br>
+    e5 _ e4 copy.<br>
+    e5 color: Color random.<br>
+    m addMorph: e5.<br>
+    Solo veremos el cuadrado y última elipse, pero con sucecivos Alt click 
+    para ver el halo, elegir el botón Move, podremos "sacar" 
+    las elipses "contenidas" en el cuadrado.</p>
+  <p align="left">Otro experimento: agregar estas lineas <img src="MorphsLayering.htm_files/MorphsLayering7.gif" align="right" height="114" width="114"></p>
+  <p align="left">m addMorph: e5.<br>
+    e top: m top.<br>
+    e2 bottom: m bottom.<br>
+    e3 left: m left.<br>
+    e4 right: m right.</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">Hay premio para los Smalltalkers que mejoren el cócgo, 
+    para que haga lo mismo en menos lineas, aplique colecciones , etc</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left"><br>
+  </p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <!-- #EndEditable --> 
+  <p>&nbsp; </p>
+  </center>
+<p></p>
+<h1>
+  <center>
+  </center>
+</h1>
+<h5> 
+  <center>
+  </center>
+</h5>
+<p>
+
+</p><hr> <p>
+
+</p><center>
+    <!-- #BeginEditable "Navegar" --><a href="TOC.html"><img src="MorphsLayering.htm_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="MorphsLayering.html"><img src="MorphsLayering.htm_files/Top.gif" border="0" height="55" width="32"></a> 
+    <a href="DescubriendoSqueak2.html"><img src="Ejercicios2002_files/Play.gif" border="0" height="21" width="55"></a>
+    <!-- #EndEditable --> 
+  </center>
+
+<!-- #EndTemplate --><!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="MorphsLayering.htm_files/mc.js"></script><script language="JavaScript" src="MorphsLayering.htm_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="MorphsLayering.htm_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288384" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="MorphsLayering.htm_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

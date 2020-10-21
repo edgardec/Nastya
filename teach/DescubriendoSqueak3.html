@@ -1,0 +1,246 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DescubriendoSqueak</title>
+<link rel="stylesheet" href="DescubriendoSqueak3_files/Estilos.css" type="text/css">
+</head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p> 
+  </p><center>
+    <img src="DescubriendoSqueak3_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> 
+  </center>
+<p></p>
+<h1><font size="+1">Programando en Smalltalk</font><font size="-2"><br>
+  </font> </h1>
+<p>En este momento debemos tener instalado en nuestra computadora una versión 
+  de Squeak y una leve idea de cómo se opera en este entorno.<br>
+  Debiéramos, por lo tanto , poeseer una carpeta donde están grabados 
+  al menos cuatro archivos denominados Squeakxxx.eee donde las xxx corresponden 
+  a la versión y las eee son las extensiones de estos archivos.<br>
+  .image es la imagen del sistema<br>
+  .sources son los fuentes del sistema.<br>
+  .changes son los cambios hechos al sistema<br>
+  .exe (en el caso de Windows) es la máquina virtual.<br>
+  No modificar bajo ningún concepto estos archivos y guardar una copia 
+  de respaldo en caso de problemas.<br>
+  Para que nuestro sistema &#8220;sepa&#8221; hacer algo distinto al instante inicial, 
+  debemos agregar clases y mensajes.<br>
+  Repasemos un poco de las estructuras utilizadas en otros lenguajes y como implementarlas 
+  en Squeak</p>
+<p>Ejercicios recolectados de innumerables fuentes, probados en Squeak 3.0</p>
+<p><br>
+  <span class="codigo">Transcript clear. "Esta orden escrita en el Workspace 
+  limpia la ventana Transcript"</span></p>
+<p><br>
+  Como ejecutar un código. Se selecciona el código deseado (funciona 
+  en cualquier ventana dentro de Squeak, por el momento hacerlo en el Workspace) 
+  y con el menú contextual elejir do it o hacer Alt D. En adelante cada 
+  vez que vean en algo que les mande Ejecutar hagan esto.</p>
+<p><br>
+  Escribir lo siguiente en el Workspace.</p>
+<p><br>
+  <span class="codigo">|anArray anIndex aValue | <br>
+  aValue := 2. <br>
+  anArray := Array new: 10. <br>
+  1 to: 10 do: <br>
+  [:index | <br>
+  anArray at: index put: (aValue * index)]. <br>
+  anIndex := 1. <br>
+  [anIndex &lt; anArray size] whileTrue:<br>
+  [Transcript show: 'El contenido de la casilla ',(anIndex printString),' es ',<br>
+  (anArray at: anIndex) printString ; cr.<br>
+  anIndex := anIndex + 1.]. </span></p>
+<p><br>
+  Ejecutar</p>
+<p><br>
+  En la primera línea se definen variables temporarias (que son objetos, 
+  recordar TODO ES UN OBJETO )<br>
+  En la segunda se manda el mensaje 2 al objeto aValue <br>
+  En la tercera se define un arreglo con diez posiciones<br>
+  En la cuarta se definen los límites para los que se va a hacer (do:) 
+  una acción.<br>
+  Todo lo que está contendido dentro de dos corchetes es un bloque (block)<br>
+  [ comienza bloque . Los estructurados piensen en un begin de pascal.<br>
+  ] fin de bloque - Los estructurados piensen en un end de pascal.<br>
+  :index | es la variable interna del bloque , puede haber mas de una o ninguna.<br>
+  anArray at: index put: (aValue * index)]. se coloca un valor en una posición 
+  del arreglo<br>
+  Como la sentencia tiene punto final , esto completa las instrucciones que comenzaron 
+  en la cuarta línea.<br>
+  [anIndex &lt; anArray size] whileTrue: Aquí el bloque controla la ejecución 
+  de la estructura de repetición.</p>
+<p>Las estructuras elementales y ejemplos de uso<br>
+  <b>do</b>:</p>
+<p><br>
+  El metodo do: evalua el block para cada miembro de la colección.<br>
+  Por ejemplo para capturar el contenido de un arreglo durante la ejecución 
+  del programa, podemos convertir cada miembro a una cadena y sacarlo por el Transcript</p>
+<p class="codigo"><br>
+  anArray do: [ :anElement |<br>
+  Transcript show: (anElement printString); cr ].</p>
+<p><br>
+  Hacer el siguiente ejemplo </p>
+<p><br>
+  <span class="codigo">'Esta es una cadena' do: [ :index |<br>
+  Transcript show: (index printString); cr ].</span></p>
+<p><br>
+  <span class="codigo">'Esta es una cadena' do: [ :index |<br>
+  Transcript show: (index asString); cr ].</span></p>
+<p><br>
+  <b>select</b>:</p>
+<p><br>
+  Para filtrar una colección y finalizar con el subset deseado, use select: 
+  .<br>
+  Cada miembro de la colección que satisface la condición de bloque 
+  se almacena en una nueva colección del mismo tipo , que es devuelta por 
+  el método. El ejemplo cuenta la cantidad de 'a' en una string colocando 
+  cada 'a' en una nueva colección y luego encontrando el tamaño. 
+  Fijarse como se le mandan muchos mensajes show: al Transcript separandolos por 
+  ';'</p>
+<p><span class="codigo"><br>
+  |cadena|<br>
+  Transcript clear.<br>
+  cadena _'Esta es una cadena'.<br>
+  Transcript show:cadena; show: ' que tiene '; show: (cadena select: [ :eachChar 
+  | eachChar == $a ] ) size; show: ' letras a '</span>.</p>
+<p><br>
+  <b>reject</b>:</p>
+<p><br>
+  Hace exactamente lo contrario que select:</p>
+<p><br>
+  <span class="codigo">|cadena|<br>
+  Transcript clear.<br>
+  cadena _'Esta es una cadena'.<br>
+  Transcript show:cadena; show: ' que tiene '; show: (cadena reject: [ :eachChar 
+  | eachChar == $a ] ) size; show: ' letras que no son a '.</span></p>
+<p><br>
+  <b>detect:</b><br>
+  Este mensaje devuelve el primer elemento del receptor para el cual el bloque 
+  es evaluado a true evaluado por ejemplo si seleccionamos en el workspace y hacemos 
+  print it </p>
+<p><span class="codigo"><br>
+  #( 4 7 10 3 7) detect: [ :each | each &gt; 7] <br>
+  mostrará 10</span>.</p>
+<p><br>
+  <b>collect:</b><br>
+  El método collect: realiza una transformación en cada elemento 
+  de<br>
+  la colección y retorna una nueva colección que contiene los objetos 
+  <br>
+  transformados . Por ejemplo para pasar una cadena a mayúscula.</p>
+<p><br>
+  <span class="codigo">|cadena CADENA|<br>
+  Transcript clear.<br>
+  cadena _'Esta es una cadena'.<br>
+  CADENA := cadena collect: [ :each | each asUppercase].<br>
+  Transcript show: (cadena, ' ', CADENA).</span></p>
+<p><br>
+  <b>Métodos de control</b></p>
+<p><br>
+  <b>ifTrue</b>: Si la expresión anterior es verdadera se ejecuta el bloque 
+  argumento</p>
+<p><br>
+  <b>ifFalse</b>: Si la expresión anterior es falsa se ejecuta el bloque 
+  argumento</p>
+<p><br>
+  <b>ifTrue: ifFalse</b>: Si la expresión anterior es verdadera se ejecuta 
+  el primer bloque en caso contrario el segundo bloque.</p>
+<p><br>
+  <b>ifFalse: ifTrue</b>: Verifica primero la condicion falsa .</p>
+<p><br>
+  <b>whileTrue:</b> Repite el bloque argumento hasta que el bloque receptor sea 
+  falso</p>
+<p><br>
+  <b>whileFalse</b>: Repite el bloque argumento hasta que el bloque receptor sea 
+  verdadero</p>
+<p><a href="Colecciones.html">Más sobre colecciones por Andrés Otaduy</a></p>
+<p><br>
+  Y ahora combinemos lo aprendido<br>
+  Escribir en wl Workspace y ejecutar</p>
+<p><br>
+  <span class="codigo">|linea cadena indice |<br>
+  Transcript clear.<br>
+  frecuencia _ Array new: 26.<br>
+  linea _FillInTheBlank request: ' Introduzca una linea' initialAnswer: ''.<br>
+  1 to: 26 do: [:i| frecuencia at: i put: 0].<br>
+  1 to: linea size do:<br>
+  [:i|<br>
+  cadena _ (linea at: i) asLowercase.<br>
+  cadena isLetter<br>
+  ifTrue:[<br>
+  indice _ cadena asciiValue - $a asciiValue + 1.<br>
+  frecuencia at: indice<br>
+  put: (frecuencia at: indice) + 1<br>
+  ]<br>
+  ].<br>
+  Transcript show: frecuencia.</span></p>
+<p><span class="codigo"><br>
+  |miCadena ind c letra|<br>
+  miCadena _ 'Ya es la hora'.<br>
+  ind _ 1.<br>
+  (miCadena size) timesRepeat:<br>
+  [c _ miCadena at: ind.<br>
+  (c isVowel)<br>
+  ifTrue:[letra _ c asUppercase]<br>
+  ifFalse: [letra _ c asLowercase].<br>
+  miCadena at: ind put:letra.<br>
+  ind _ ind +1].<br>
+  Transcript show: miCadena.</span></p>
+<p><b>Sentencia de selección múltiple</b><br>
+  En Pascal tenemos el case cuya implementación completa es la siguiente</p>
+<p><img src="DescubriendoSqueak3_files/case.gif" align="left" height="458" width="480">Dentro de 
+  Squeak existe el método caseOf: otherwise: <br>
+  Ejemplos de uso.<br>
+  Agregar el siguiente método al ejercicio de las letras<br>
+  Notas: el bloque de selección múltiple debe encerrarse entre llaves 
+  y si no se usa otherwise (no es obligatorio , al igual que en Pascal) , si se 
+  ingresa un valor sin bloque de ejecución dará error</p>
+<p><b><span class="codigo">escribircaso: linea</span></b><span class="codigo"><br>
+  | letra |<br>
+  1 to: linea size do:<br>
+  [:i|<br>
+  letra _ (linea at: i) asLowercase.<br>
+  letra caseOf: {<br>
+  [$a ] -&gt; [self A].[$b ] -&gt; [self B].<br>
+  [$c ] -&gt; [self C].<br>
+  [$1] -&gt; [self uno].<br>
+  [$2] -&gt; [self dos].<br>
+  [$3] -&gt; [self tres].<br>
+  }otherwise: [Transcript open.<br>
+  Transcript show: 'Ese simbolo no lo se dibujar'].<br>
+  ]<br>
+  Ejemplo más complejo del mismo sistema<br>
+  MailMessage methodsFor: 'initialize-release' stamp: 'bf 3/10/2000 10:01'!<br>
+  cacheFieldsFrom: aStream andDo: aBlock<br>
+  "Parse aStream to initialize myself. Also, report to aBlock like fieldsFrom:do: 
+  does"<br>
+  time _ 0.<br>
+  from _ to _ cc _ subject _ ''.<br>
+  self fieldsFrom: aStream do:<br>
+  [:fName :fValue |<br>
+  fName asLowercase caseOf: {<br>
+  ['date'] -&gt; [time _ self timeFrom: fValue].<br>
+  ['from'] -&gt; [from _ fValue].<br>
+  ['to'] -&gt; [to isEmpty<br>
+  ifTrue: [to _ fValue]<br>
+  ifFalse: [to _ to , ', ' , fValue]].<br>
+  ['cc'] -&gt; [cc isEmpty<br>
+  ifTrue: [cc _ fValue]<br>
+  ifFalse: [cc _ cc , ', ' , fValue]].<br>
+  ['subject'] -&gt; [subject _ fValue]}<br>
+  otherwise: [].<br>
+  aBlock value: fName value: fValue].</span></p>
+<p><font size="4"><br>
+  </font></p>
+<p> 
+</p><hr>
+<p> 
+  </p><center>
+    <a href="DescubriendoSqueak2.html"><img src="DescubriendoSqueak3_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="DescubriendoSqueak3.html"><img src="DescubriendoSqueak3_files/Top.gif" border="0" height="55" width="32"></a> 
+    <a href="DescubriendoSqueak4.html"><img src="DescubriendoSqueak3_files/Play.gif" border="0" height="21" width="55"></a> 
+  </center>
+<!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="DescubriendoSqueak3_files/mc.js"></script><script language="JavaScript" src="DescubriendoSqueak3_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="DescubriendoSqueak3_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288278" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="DescubriendoSqueak3_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

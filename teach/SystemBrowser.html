@@ -1,0 +1,202 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- #BeginTemplate "/Templates/DescubriendoSqueak.dwt" --><!-- #BeginEditable "doctitle" --> 
+<title>DescubriendoSqueak</title>
+<link rel="stylesheet" href="SystemBrowser_files/Estilos.css" type="text/css">
+<!-- #EndEditable --></head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p>
+  </p><center>
+    
+  <p><img src="SystemBrowser_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> </p>
+  <!-- #BeginEditable "MiTexto" --> 
+  <h1>SystemBrowser</h1>
+  <h1>&nbsp;</h1>
+  <p align="left">Aqui vemos el SystemBrowser y sus partes</p>
+  <p align="left"><a href="http://201.212.74.182/~ed/images/SystemBrowserbig.gif"><img src="SystemBrowser_files/SystemBrowser.gif" border="0" height="64" width="91"></a></p>
+  <p align="left">En la parte izquierda de las ventanas suele aparecer una barra 
+    de desplazamiento y si movemos el mouse despacio, en la parte superior aparece 
+    un dibujo que presionando nos da un menú contextual ( Puede haber uno 
+    para cada panel).<br>
+    Para crear una nueva categoría de clases, pulsar add item en el menú 
+    contextual correspondiente al panel categoría de clases. (ver dibujo)<br>
+    Al aparecer una ventana , escribir Ejercicios y pulsar accept.<br>
+    En el panel inferior debe quedar el siguiente código</p>
+  <p align="left"><br>
+    <span class="codigo">Object subclass: #NameOfSubclass<br>
+    instanceVariableNames: ''<br>
+    classVariableNames: ''<br>
+    poolDictionaries: ''<br>
+    category: Ejercicios</span></p>
+  <p align="left"><br>
+    En este momento , Ejercicios será la última categoría 
+    agregada al System Browser.<br>
+    Habremos creado una nueva categoría, para crear una clase seleccionar 
+    el texto que dice NameOfSubclass con el mouse y escribir el nombre que se 
+    desee , en nuestro caso &#8220;Pantalla&#8221; y aceptarlo con accept. del menú 
+    o con Alt s del menú contextual correspondiente al panel Código 
+    de Smalltalk para métodos<br>
+    Debe aparecer el nombre Pantalla en el segundo panel Clases. Los nombres de 
+    Clases deben comenzar con mayúscula. Recordar siempre que todos los 
+    nombres de objetos en Smalltalk son &#8220;case sensitives&#8221;, mama, Mama, 
+    mAma, MAMA, etc serían objetos diferentes.<br>
+    Para crear categorías de métodos o protocolos, ir al panel correspondiente, 
+    y con el menú contextual hacer new category<br>
+    Al aparecer el menú , pulsar new y al aparecer una ventana , escribir 
+    el nombre del protocolo deseado, ej. Inicializar y aceptar.<br>
+    En el panel Código de Smalltalk para métodos aparecerá 
+    el siguiente código remarcado en verde.</p>
+  <p align="left"><br>
+    <span class="codigo">message selector and argument names</span></p>
+  <p class="codigo" align="left">"comment stating purpose of message"<br>
+    | temporary variable names |<br>
+    statements</p>
+  <p align="left"><br>
+    Reemplazar por el código deseado y aceptar</p>
+  <p align="left">Para nuestro primer ejercicio veremos como dibujar letras en 
+    pantalla según el siguiente modelo</p>
+  <p align="left"><img src="SystemBrowser_files/image010.png" height="121" width="615"></p>
+  <p align="left"><br>
+    <span class="codigo">comienzo<br>
+    (Form extent: 784@548) fillWhite display." Rellenar un rectangulo con 
+    blanco, limpiando así la pantalla"<br>
+    miPluma _ Pen new.<br>
+    miPluma up.<br>
+    miPluma goto: 100 @ 500.<br>
+    miPluma down.<br>
+    miPluma color: 8.</span></p>
+  <p align="left"><span class="codigo"><br>
+    </span>Si no se cometieron errores, el nombre del método (comienzo 
+    en nuestro caso), se remarcará en negrita y aparecerá en el 
+    cuarto panel<br>
+    Código de limpiar<span class="codigo"> </span></p>
+  <p align="left"><span class="codigo"><br>
+    Limpiar<br>
+    (Form extent: 784@548) fillWhite display.</span></p>
+  <p align="left"><span class="codigo"><br>
+    </span>Dibujos de las letras </p>
+  <p align="left"><span class="codigo"><br>
+    A<br>
+    miPluma go: 40.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 40.<br>
+    miPluma up.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 20.<br>
+    miPluma down.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 20.<br>
+    miPluma up.<br>
+    miPluma turn: 270.<br>
+    miPluma go: 20.<br>
+    miPluma down.<br>
+    miPluma turn: 270.<br>
+    B<br>
+    miPluma go: 40.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 10.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 270.<br>
+    miPluma go: 10.<br>
+    miPluma turn: 270.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 20.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma up.<br>
+    miPluma turn: 180.<br>
+    miPluma go: 50.<br>
+    miPluma down.<br>
+    miPluma turn: 270.<br>
+    C<br>
+    miPluma go: 40.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma up.<br>
+    miPluma go: 40.<br>
+    miPluma down.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma up.<br>
+    miPluma turn: 180.<br>
+    miPluma go: 50.<br>
+    miPluma down.<br>
+    miPluma turn: 270.<br>
+    D<br>
+    miPluma go: 40.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 40.<br>
+    miPluma down.<br>
+    miPluma turn: 90.<br>
+    miPluma go: 30.<br>
+    miPluma up.<br>
+    miPluma turn: 180.<br>
+    miPluma go: 50.<br>
+    miPluma down.<br>
+    miPluma turn: 270.</span></p>
+  <p align="left"><br>
+    La consigna para el ejercicio entonces es.<br>
+    Completar el ejemplo con los métodos, clases, etc, necesarios para 
+    que se pueda tipear en el Workspace cualquiera de los siguientes ejemplos, 
+    remarcarlos con el mouse y ejecutar, (do it) con Alt D o el menú contextual 
+    del Workspace.</p>
+  <p align="left">Verificar el funcionamiento en el <a href="http://201.212.74.182/~ed/Workspace.html">Workspace</a></p>
+  <p align="left">Mipantalla_ Pantalla new.<br>
+    Mipantalla comienzo.<br>
+    Mipantalla Escribir: 'bocado'.</p>
+  <p align="left"><img src="SystemBrowser_files/Bocado.gif" align="left" height="297" width="425">	
+    Mipantalla_ Pantalla new.<br>
+    Mipantalla comienzo.<br>
+    Mipantalla Escribir: 'bello'.<br>
+    Mipantalla_ Pantalla new.<br>
+    Mipantalla comienzo.<br>
+    Mipantalla Escribir: 'higo'.<br>
+    Mipantalla_ Pantalla new.<br>
+    Mipantalla comienzo.<br>
+    Mipantalla Escribir: &#8216;puesto&#8217;.</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <!-- #EndEditable -->
+<p>&nbsp; </p>
+  </center>
+<p></p>
+<h1>
+  <center>
+  </center>
+</h1>
+<h5> 
+  <center>
+  </center>
+</h5>
+<p>
+
+</p><hr> <p>
+
+</p><center>
+    <!-- #BeginEditable "Navegar" --><a href="TOC.html"><img src="SystemBrowser_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="FileList.html"><img src="Ejercicios2002_files/Play.gif" border="0" height="21" width="55"></a>
+    <!-- #EndEditable --> 
+  </center>
+
+<!-- #EndTemplate --><!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="SystemBrowser_files/mc.js"></script><script language="JavaScript" src="SystemBrowser_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="SystemBrowser_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288425" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="SystemBrowser_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

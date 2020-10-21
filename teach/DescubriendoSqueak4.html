@@ -1,0 +1,432 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>DescubriendoSqueak</title>
+
+<link rel="stylesheet" href="DescubriendoSqueak4_files/Estilos.css" type="text/css">
+</head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p>
+  </p><center>
+    <img src="DescubriendoSqueak4_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> 
+  </center>
+<p></p>
+<h3><font size="4">El juego de los Animales</font> </h3>
+<p><font size="4"><br>
+  </font>En este clásico juego que se ha utilizado desde años y 
+  con versiones para los primeros BASIC, se pregunta para adivinar de qué 
+  animal se trata haciendo una serie de preguntas. Si el programa no adivina de 
+  qué animal se trata, pregunta de manera que pueda aprender para juegos 
+  futuros,<br>
+  En el comienzo , el juego solo conoce el perro, así que hasta que aprenda 
+  un poco más, será un poco aburrido. También haré 
+  preguntas para distinguir cada nuevo animal de los anteriores cargados en su 
+  base de datos.<br>
+  El original de esto es uno de los innumerables tutoriales de distintos Smalltalk 
+  que hay en Internet.<br>
+  Se acompaña el dibujo del original.<br>
+  Podemos reconocer que es un árbol invertido con su raíz en la 
+  parte superior . Los nodos Question (Pregunta) representan las ramas y las hojas 
+  son los nodos Animal,<br>
+  Elegir una de los animales mostrados (Dog, Snake, Eagle , Horse) (Perro, Serpiente, 
+  Aguila, Caballo) como intentos de acierto y siga el +arbol de decisión 
+  desde la raiz.<br>
+  Parece entonces que podemos construir nuestra base de conocimientos con dos 
+  clases de objetos, Animales y Preguntas.<br>
+  También debemos guardar el objeto raíz ( una Pregunta) en alguna 
+  parte para poder comenzar el juego.</p>
+<h3>Herencia de Clases</h3>
+<p><br>
+  Ahora , agregaremos la clase Animal a nuestra imagen. Repasemos un poco la herencia 
+  de clases.<br>
+  Busquemos por ejemplo en el System Browser la clase Form que hemos usado. Con 
+  la clase seleccionada, aquellos afortunados que tienen más de un botón, 
+  pulsen botón derecho o h o expand hierarchy y les mostrará un 
+  Class Hierarchy Browser.<br>
+  El Browser mostrará alguna de las clases que ya existen en la imagen. 
+  Esta jerarquía es importante dado que gobierna como una clase en particular 
+  &#8220;hereda&#8221; la funcionalidad de sus clases padres. Eligiendo un lugar 
+  apropiado en la cadena de herencia para definir nuevas clase nos ahorrará 
+  tiempo n no escribirá código que ya esta hecho (reusabilidad).</p>
+<p><img src="DescubriendoSqueak4_files/Animales.gif" height="425" width="425"></p>
+<h3>Clases y Superclases</h3>
+<p><br>
+  Recordamos algunas definiciones. Vemos que una clase puede tener varias clase 
+  hijas. Estas se conocen como subclases. La clase padre se conoce como Superclase</p>
+<h3><br>
+  Relaciones Es un y Contiene un</h3>
+<p><br>
+  Volvemos a nuestra clase Animal. Donde en la jerarquía de clases la creamos?. 
+  Lo primero a considerar es que clase de información contiene. Mirando 
+  el diagrama vemos que cada animal conoce su nombre, esto es que clase de animal 
+  es. Esta información estará en forma de una cadena de testo String 
+  en Smalltalk: Ejemplo &#8216;Perro&#8217;. `Gato&#8217;, &#8216;Caballo&#8217;. Así 
+  una posible ubicación sería en la clase String<br>
+  Si buscamos la clase String nos encontraremos lo siguiente</p>
+<p><a href="himages/Clasesbig.gif"><img src="DescubriendoSqueak4_files/Clases.gif" border="0" height="65" width="91"></a> 
+</p>
+<p>&nbsp;</p>
+<p>Veremos métodos que realmente no nos son útiles, como los primeros 
+  de la lista . En realidad , si pensamos un poco , veremos que Animal no &#8220;Es 
+  un&#8221; String , sino que &#8220;Contiene un&#8221; String. Esta es una decisión 
+  fundamental que los diseñadores de software hacen cuando hacen "object 
+  oriented analysis" sobre un problema de diseño. A menudo el problema 
+  es lo suficientemente complejo como para dibujar un diagrama del modelo de objetos 
+  que ilustre las relaciones entre los varios objetos en el sistema. Esta relaciones 
+  se describen como Es un y Contiene un.<br>
+  Entonces , ya que Animal contiene un String, es mejor que sea una subclase de 
+  Object.</p>
+<h3><font size="4"><br>
+  Creando una clase</font></h3>
+<p><font size="4"><br>
+  </font>Ahora creemos una clase como subclase de Object. <br>
+  Recordar, todo lo que hagamos estará en una categoría Ejercicios, 
+  según ya vimos.<br>
+  En el panel correspondiente debe decir </p>
+<p><font color="#000000"><br>
+  <font face="Courier New, Courier, mono"><span class="codigo">Object subclass: 
+  #Animal<br>
+  instanceVariableNames: 'nombre'<br>
+  classVariableNames: ''<br>
+  poolDictionaries: ''</span></font></font></p>
+<p><font color="#000000"><font face="Courier New, Courier, mono"><br>
+  Aceptar esto.</font></font></p>
+<h3><font size="4"><br>
+  Agregando métodos de acceso.</font></h3>
+<p><font size="4"><br>
+  Una de las cosas sobre la programación orientada a objetos en general 
+  y de Smalltalk en particular es que no se tiene acceso a los datos guardados 
+  dentro del objeto excepto que haya métodos para eso escritos en la clase. 
+  Por ejemplo podemos guardar y obtener el valor de la variable de instancia nombre.<br>
+  Para hacer esto agregamos dos mensajes , nombre y nombre:<br>
+  Este tipo de mensajes se conoce como mensajes de acceso o accessor methods</font></p>
+<p><font size="4"><br>
+  <span class="codigo">nombre<br>
+  &#8220; Devuelve el nombre del receptor &#8221;<br>
+  ^nombre</span></font></p>
+<p><font size="4"><br>
+  </font>Agregar lo anterior a la lista de mensajes, creando una categoría 
+  de mensajes denominada acceso</p>
+<p><font size="4"><br>
+  <span class="codigo">nombre:unaCadena<br>
+  &#8220;Privado &#8211; inicializa el nombre del receptor a unaCadena&#8221;<br>
+  nombre := unaCadena</span></font></p>
+<p><font size="4"><br>
+  </font>Agregar lo anterior a la lista de mensajes.<br>
+  Este mensaje recibe un parámetro denominado unaCadena. Los nombres de 
+  las clases, categorías, mensajes son importantes. Tratar siempre de elegir 
+  buenos nombres que den al próximo que lea nuestro código una idea 
+  de que hace nuestro código al leerlo. Hacer buenos comentarios<br>
+  Probando nuestro código<br>
+  Lo bueno del Smalltalk es que inmediatamente podemos probar nuestro código.<br>
+  Creamos una instancia de Animal en el Workspace<br>
+  miAnimal _ Animal new.<br>
+  Ejecutar (do it)<br>
+  Ahora escribir<br>
+  miAnimal nombre<br>
+  Remarcar y pulsar botón derecho print it. (Siempre que de adelante en 
+  los tutoriales diga mostrar esto es lo que deben hacer) Debe aparecer nil al 
+  lado de lo escrito<br>
+  Agregar miAnimal nombre: &#8216;Perro&#8217; ejecutar y remarcando la línea 
+  anterior mostrar<br>
+  Nil<br>
+  Cuando en el ejemplo , luego de crear la instancia pedimos mostrar su nombre, 
+  vimos como resultado nil, Esto es un valor especial que Smalltalk usa para indicar 
+  que la variable no ha sido inicializada.<br>
+  Nil tiene otros usos aparte de ver si una variable esta o no inicializada, por 
+  ejemplo para representar el concepto de algo indefinido</p>
+<h3><font size="4">.<br>
+  Mensajes de creación de instancias</font></h3>
+<p><br>
+  Por defecto, todas las clases responden al mensaje #new con una nueva instancia 
+  de la clase<br>
+  Sin embargo, usar #new para crear una nueva instancia de Animal no es ideal 
+  ya que finalizamos con un animal sin nombre. Sería mejor asegurarse que 
+  cada instancia sea creada con un valor String válido. Podemos hacerlo 
+  agregando mensajes de creación de instancias que tomen como parámetro 
+  el nombre del animal. Este tipo de mensaje no es aplicable a la instancia de 
+  Anima sino a la clase. Por esta razón se denomina class method en vez 
+  de los mensajes de instancia que usamos hasta ahora.<br>
+  Para crear un mensaje de clase, fijarse que está seleccionado de clases 
+  en el browser<br>
+  En el panel de creación de categorías . elegir en el menú 
+  contextual new category y se desplegará el siguiente menú . </p>
+<p><a href="himages/Categorybig.gif"><img src="DescubriendoSqueak4_files/Category.gif" border="0" height="65" width="91"></a></p>
+<p>elegir instance creation, (creación de instancias)</p>
+<h3><font size="4"><br>
+  Representando un objeto como texto</font></h3>
+<p><font size="4"><br>
+  </font>Hay muchas situaciones en que deseamos mostrar nuestro objeto como texto. 
+  Por convención Smalltalk provee mensajes definidos en Objeto para este 
+  propósito.<br>
+  Agreguemos al Workspace y mostremos<br>
+  miAnimal printString<br>
+  Nos informó el nombre de la clase (anAnimal)<br>
+  Agreguemos una categoría a la clase animal denominada mostrar (displaying) 
+  y los siguientes mensaje a la misma</p>
+<p><font size="4"><br>
+  <span class="codigo">displayOn: aStream<br>
+  "Answer the name of the receiver prepended by 'a' or 'an' as appropriate"<br>
+  <br>
+  | aOrAn |<br>
+  aOrAn := nombre first isVowel ifTrue: ['an '] ifFalse: ['a '].<br>
+  aStream nextPutAll: aOrAn; nextPutAll: self nombre.<br>
+  printOn: aStream<br>
+  "Answer the name of the receiver as a developer would wish to see it."<br>
+  super printOn: aStream.<br>
+  aStream nextPut: $(.<br>
+  self displayOn: aStream.<br>
+  aStream nextPut: $)</span></font></p>
+<p>.Los mensajes #printString and #printOn:están definidos en la clase 
+  Object, de la cual Animal hereda. Lo que acabamos de hacer se denomina overriding 
+  y reemplaza el mensaje de la clase por el mensaje de la instancia<br>
+  Agreguiemos nuevamente miAnimal printString al Workspace y mostremos.</p>
+<h3><font size="4"><br>
+  Self y Super</font></h3>
+<p><font size="4"><br>
+  </font>En el último mensaje agregamos el uso de estos dos importantes 
+  conceptos.<br>
+  Si en un mensaje, deseamos enviar otro mensaje al objeto receptor, entonces 
+  usamos la palabra especial self para representar el objeto. Miremos el mensaje 
+  #printOn y veamos como trabaja. Queremos utilizar #displayOn para imprimir el 
+  nombre del animal como parte de la representación total,<br>
+  Lo hacemos mandando el mensaje #displayOn a self.<br>
+  Un concepto mas complicado es el de super. Lo utilizamos cuando deseamos mandar 
+  un mensaje al receptor pero no en ninguna declaración local (esto es 
+  en la clase ). Cuando utilizamos super , el sistema comienza la búsqueda 
+  del mensaje a ejecutar , no en la clase del receptor sino en la superclase. 
+  Es frecuente querer heredar la funcionalidad pero agregar funcionamiento, esto 
+  es lo que se hizo con #printOn.</p>
+<h3><font size="4"><br>
+  Creando la clase Pregunta</font></h3>
+<p><font size="4"><br>
+  </font>Vimos anteriormente que el juego de los animales probablemente requiere 
+  dos clases. Ahora crearemos la clase Pregunta.<br>
+  Que conocemos del comportamiento de Pregunta?. Observando el diagrama de la 
+  estructura de datos para un juego tópico, vemos que Pregunta también 
+  necesita contener algún texto con la pregunta que el sistema debe hacer. 
+  Aparte de esto, cada objeto Pregunta necesita indicar cual rama del árbol 
+  seguir según se conteste Sí o No a la pregunta. Parece entonces 
+  que necesitamos tres variables, texto, si y no. También parece que la 
+  superclase sea nuevamente un Object. </p>
+<h3><font size="4"><br>
+  Agregando la clase Pregunta como subclase de Object.</font></h3>
+<p><font size="4"><br>
+  </font>Siguiendo los pasos para agregar clases al sistema.</p>
+<p><font size="4"><br>
+  <span class="codigo">Object subclass: #Pregunta<br>
+  instanceVariableNames: 'texto si no'<br>
+  classVariableNames: ''<br>
+  poolDictionaries: </span>''</font></p>
+<h3><font size="4"><br>
+  Agregando los mensajes de acceso</font></h3>
+<p><br>
+  Agregar los siguientes mensajes para obtener los valores de las tres variables 
+  de instancia<font size="4">.</font></p>
+<p><font size="4"><br>
+  <span class="codigo">si <br>
+  &#8220; Devuelve la rama en el árbol de conocimiento para tomarlo como 
+  resultado de la pregunta al receptor&#8221;<br>
+  ^si<br>
+  no<br>
+  &#8220; Devuelve la rama en el árbol de conocimiento para tomarlo como 
+  resultado de la pregunta al receptor&#8221;<br>
+  ^no<br>
+  texto<br>
+  &#8220;Devuelve la pregunta del receptor como una cadena de texto&#8221;<br>
+  ^ texto</span></font></p>
+<p><font size="4"><br>
+  </font>Ciertamente es útil acceder a los valores de estas variables separadamente. 
+  Sin embargo , una vez que se ha creado una instancia de Pregunta, no necesitamos 
+  darle valores a estas variables nuevamente.<br>
+  Por tanto, tiene sentido utilizar un mensaje privado para dar valores a todas 
+  las variables de una vez durante la creación de instancia. Usaremos para 
+  esto el siguiente mensaje.</p>
+<p><font size="4"><br>
+  <span class="codigo">texto: unaCadena si: caminoSi no: caminoNo<br>
+  &#8220; Privado &#8211; Coloca el valor unaCadena al receptor texto, el valor 
+  caminoSi al receptor si y el valor caminoNo al receptor no. Con un pequeño 
+  truco, al final el receptor cambia su identidad con la de caminoNo &#8221;<br>
+  texto := unaCadena.<br>
+  si := caminiSi.<br>
+  no := self.<br>
+  self become: caminoNo.</span></font></p>
+<p><font size="4"><br>
+  </font>Agregamos estos mensajes en la categoría acceso.</p>
+<h3><font size="4"><br>
+  Agregando un mensaje de creación de instancia.</font></h3>
+<p><font size="4"><br>
+  </font>Ahora necesitamos un mensaje de clase cuando creamos una instancia de 
+  Pregunta<br>
+  Asegurarse por tanto , de que el browser muestre que está listo para 
+  clases, de otro modo podemos borrar lo que acabamos de agregar del lado de las 
+  instancias.</p>
+<p><font size="4"><br>
+  <span class="codigo">texto: unaCadena si: caminoSi no: caminoNo<br>
+  &#8220;Devuelve una instancia del receptor (una Pregunta) con unaCadena dirigiendo 
+  hacia los nodos de caminoSi y caminoNo como resultado de la pregunta&#8221;<br>
+  ^self new texto: unaCadena si: caminoSi no: caminoNo</span><br>
+  <br>
+  </font>Este mensaje se agrega a la categoría creación de instancias<br>
+  Creando una base de conocimiento que contenga la base de conocimiento.<br>
+  Antes mencionamos que necesitamos guardar la raíz de la base de conocimiento 
+  en una variable . Podríamos utilizar una variable global para este propósito. 
+  Sin embargo, es mejor evitar esto para evitar conflicto con nombres similares 
+  en otra aplicación. La alternativa es utilizar una variable de clase.<br>
+  Vimos como se pueden utilizar las variables de instancia para los datos. También 
+  es posible crear un tipo de variable asociada con cada objeto particular en 
+  la clase.<br>
+  Seleccionamos la clase Animal y disponemos el browser para clases. Modificar 
+  y aceptar el cambio <br>
+  Por convención las variables de clase comienzan con Mayúsculas.<br>
+  Esta nueva variable solamente se podrá usar dentro del alcance de la 
+  clase Animal. Esto significa que se puede utilizar en cualquier mensaje que 
+  está definido para Animal o sus subclases. <br>
+  No se puede referenciar la variable KnowledgeBase desde otra clase o desde el 
+  workspace. Esto significa que no se puede referenciar desde Pregunta. Este nivel 
+  de privacidad comparado al de las verdaderas globales significa que otro programa 
+  o clase no la pueden modificar por error.</p>
+<h3><font size="4">Inicializando la clase Animal.</font></h3>
+<p>Inicializamos KnowledgeBase de manera de obtener un objeto adecuado en la raíz 
+  del juego al comienzo. Si agregamos esta inicialización como parte de 
+  los mensajes de clase luego podemos reusar cuando queremos reinicial el juego 
+  (olvidar lo aprendido). Así agregamos el siguiente mensaje de clase a 
+  Animal en la categoría inicializar.</p>
+<p><font size="4"><br>
+  <span class="codigo">inicialize<br>
+  &#8220;Inicializar la base de conocimiento del juego de los Animales .<br>
+  Al comienzo solamente conocemos el perro &#8220;<br>
+  KnowledgeBase:= self nombre:= &#8216;Perro&#8216;</span></font></p>
+<p><font size="4"><br>
+  </font>Ahora en el workspace, evaluar lo siguiente de manera de realizar la 
+  inicialización.<br>
+  Animal inicialize<br>
+  La inclusión de un mensaje #inicialize tiene un significado adicional 
+  cuando grabamos nuestro trabajo para ser utilizado por otro. Cuando se agrega 
+  una clase en la imagen, el sistema chequea para ver si existe un mensaje #inicialize 
+  para ejecutarlo automáticamente en caso afirmativo. Como se ve, esta 
+  es una buena forma de asegurarse que quedan adecuadamente seteadas las variables 
+  de clase.</p>
+<h3><font size="4">Completando el juego</font></h3>
+<p>Ahora solo nos faltan pocos mensajes que terminarán de colocar todas 
+  las piezas juntas. Veamos un poco de la forma en que encontraremos el código 
+  escrito en la nomenclatura inglesa.</p>
+<p><font size="4"><br>
+  <span class="codigo">Animal&gt;&gt;thisMethod<br>
+  Indicates that thisMethod belongs on the instance side of the Animal class<br>
+  Animal class&gt;&gt;thisMethod<br>
+  Indicates that thisMethod belongs on the class side of the Animal class<br>
+  Question&gt;&gt;thisMethod<br>
+  Indicates that thisMethod belongs on the instance side of the Question class<br>
+  Question&gt;&gt;thisMethod<br>
+  Indicates that thisMethod belongs on the instance side of the Question class</span></font></p>
+<p><font size="4"><br>
+  </font>El símbolo &gt;&gt; se utiliza como forma de documentar que el 
+  mensaje (método) pertenece a una clase particular.<br>
+  Haciendo preguntas<br>
+  Cuando el juego funciona, la computadora nos hará preguntas. A medida 
+  que el juego recorra el árbol de conocimiento en un momento en particular, 
+  estará en un nodo Pregunta o si le parece que conoce que animal es , 
+  en un nodo Animal. Si repasamos el diagrama, vemos que todo el tiempo nos preguntará.<br>
+  &#8220;Tiene alas ?&#8221; Para un objeto Pregunta o<br>
+  &#8220;Estás pensando en un águila?&#8221; para un objeto Animal.<br>
+  Lo importante ahora es ver que podemos escribir el código del juego de 
+  tal manera de independizarnos del tipo de nodo. Podemos hacerlo enviando un 
+  mensaje #ask a cada nodo e implementando un método adecuado #ask en cada 
+  clase Animal y Pregunta. Este comportamiento es tópico de la programación 
+  orientada a objetos y se denomina Polimorfismo.<br>
+  Así que agreguemos nuestros métodos polimórficos #ask a 
+  Pregunta y Animal. Colocarlos en la categoría operaciones.</p>
+<p><font size="4"><br>
+  <span class="codigo">ask<br>
+  | repuesta pregunta miAnimal |<br>
+  pregunta := 'El animal es que piensa ',self texto.<br>
+  repuesta _ FillInTheBlank request: pregunta.<br>
+  repuesta = 'SI' ifTrue: [miAnimal _ self si.<br>
+  repuesta _ 'El animal era ', miAnimal nombre.<br>
+  PopUpMenu inform: repuesta<br>
+  ]<br>
+  ifFalse: [miAnimal _ self no.<br>
+  miAnimal ask]</span></font></p>
+<p><br>
+  Ahora el método Animal&gt;&gt;ask . Cuando es llamado, la computadora 
+  piensa que tiene una repuesta pare el animal, así que pregunta si la 
+  repuesta es correcta, y si es así, gana el juego. Si no, pregunta por 
+  un nuevo Animal para crearlo con la repuesta correcta y para una nueva Pregunta 
+  que sea distinta de la original. Veremos que hay algunos nuevos mensajes que 
+  se envían para los que no hemos codificado métodos, pero los haremos 
+  posteriormente.</p>
+<p><font size="4"><br>
+  <span class="codigo">Animal&gt;&gt;ask<br>
+  ask<br>
+  | repuesta pregunta newAnimal newQuestion |<br>
+  pregunta := 'El animal es que piensa es ', self nombre.<br>
+  repuesta _ FillInTheBlank request: pregunta.<br>
+  repuesta ='SI' ifTrue: [PopUpMenu inform: 'Acerte '].<br>
+  repuesta ='NO' ifTrue: [newAnimal := Animal prompt ].<br>
+  newQuestion := Pregunta preguntarParaDiferenciar: self from: newAnimal.<br>
+  pregunta := 'Desea continuar jugando ? '.<br>
+  repuesta _ FillInTheBlank request: pregunta.<br>
+  repuesta ='SI' ifTrue: [Animal playGame ].<br>
+  Preguntando por un nuevo Animal<br>
+  Vemos en el último método una necesidad de crear un nuevo Animal 
+  preguntando por su nombre.<br>
+  Animal class&gt;&gt;prompt<br>
+  prompt<br>
+  "Prompt for a new animal to add to the game"<br>
+  | newName |<br>
+  [newName isNil or: [newName isEmpty]] whileTrue: [<br>
+  newName _ FillInTheBlank request: 'En que animal estaba pensando ?'.].<br>
+  ^self nombre: newName</span></font></p>
+<p><font size="4"><br>
+  </font>Como vemos, el método usa una clase llamada Prompter, la que se 
+  utiliza para pedir al usuario una cadena de texto. Esta se chequea para validez 
+  y se utiliza para crear una instancia de Animal utilizando nuestro método 
+  #nombre . dado que el método #prompt pregunta por una nueva instancia, 
+  tiene sentido colocarlo en la categoría creación de instancias. 
+  Recordar que es un método de clase, así que utilizar el browser 
+  seleccionado para clases.<br>
+  Ingresando una nueva Pregunta<br>
+  Y finalmente , necesitamos un método para un nuevo objeto Pregunta.</p>
+<p><font size="4"><br>
+  <span class="codigo">Pregunta class&gt;&gt; preguntarParaDiferenciar<br>
+  preguntarParaDiferenciar: anOldAnimal from: aNewAnimal<br>
+  | viejo nuevo questionText pregunta |<br>
+  viejo _ anOldAnimal nombre.<br>
+  nuevo _ aNewAnimal nombre.<br>
+  pregunta := 'Ahora por favor ingrese una pregunta que se responda por SI para 
+  ',nuevo.<br>
+  pregunta := pregunta, ' Y por NO para '.<br>
+  pregunta := pregunta,viejo.<br>
+  [questionText isNil or: [questionText isEmpty]] whileTrue: [<br>
+  questionText _ FillInTheBlank request: pregunta.<br>
+  ].<br>
+  ^self texto: questionText si: aNewAnimal no: anOldAnimal</span></font></p>
+<h3><font size="4"><br>
+  .<br>
+  Ahora a jugar</font></h3>
+<p><font size="4"><br>
+  </font>Estamos lista para agregar un último método para nuestro 
+  juego de los animales. Necesitamos un método sencillo para comenzar el 
+  juego. </p>
+<p><font size="4"><br>
+  <span class="codigo">Animal class&gt;&gt;playGame<br>
+  playGame<br>
+  PopUpMenu inform: 'Piense un animal y yo intentare adivinar'.<br>
+  KnowledgeBase ask.</span></font></p>
+<p><br>
+  Hacer fileIn de Ejercicios.st y de Workspace.text.<br>
+  Divertirse y analizar lo que hace el programa</p>
+<p>
+
+</p><hr> <p>
+
+</p><center>
+    <a href="DescubriendoSqueak3.html"><img src="DescubriendoSqueak4_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="DescubriendoSqueak4.html"><img src="DescubriendoSqueak4_files/Top.gif" border="0" height="55" width="32"></a> 
+    <a href="DescubriendoSqueak5.html"><img src="DescubriendoSqueak4_files/Play.gif" border="0" height="21" width="55"></a> 
+  </center>
+
+<!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="DescubriendoSqueak4_files/mc.js"></script><script language="JavaScript" src="DescubriendoSqueak4_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="DescubriendoSqueak4_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288312" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="DescubriendoSqueak4_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

@@ -1,0 +1,134 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- #BeginTemplate "/Templates/DescubriendoSqueak.dwt" --><!-- #BeginEditable "doctitle" --> 
+<title>DescubriendoSqueak</title>
+<link rel="stylesheet" href="Ejercicios2002_files/Estilos.css" type="text/css">
+<!-- #EndEditable --></head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p>
+  </p><center>
+    
+  <p><img src="Ejercicios2002_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> </p>
+  <!-- #BeginEditable "MiTexto" --> 
+  <h1>Ejercicios2002</h1>
+  <p align="left">Como parte del trabjo de este año, comenzaremos un pequeño 
+    proyecto.</p>
+  <p align="left">Lo denominaremos PrimerEjercicioParaIndividuosTodoObjeto o Pepito.</p>
+  <p align="left">Asuimiremos conocimientos mínimos de Smalltalk/Squeak.y 
+    un pensamiento mas "estructurado" que "objeto".</p>
+  <p align="left">Tambien haber leído el tutorial de IBM o poseer una leve 
+    experiencia,</p>
+  <h3 align="left">Primera Etapa</h3>
+  <p align="left"> Utilización del <a href="Workspace.html">Workspace</a>, 
+    <a href="SystemBrowser.html">Browser</a> y <a href="Transcript.html">Transcript</a></p>
+  <p align="left">Queremos realizar un "data entry" sencillo, que nos 
+    permita utilizar el Squeak para mantener las fichas de nuestro miembros.</p>
+  <p align="left">La información que nos interesa es el nombre, dirección, 
+    teléfono, fecha de nacimiento, intereses.</p>
+  <p align="left">Crear una categoría Ejercicicios2002, como se ve anteriormente.</p>
+  <p class="codigo" align="left">Object subclass: #Ficha<br>
+    instanceVariableNames: 'nombre direccion telefono fecha intereses '<br>
+    classVariableNames: ''<br>
+    poolDictionaries: ''<br>
+    category: 'Ejercicios2002'</p>
+  <p align="left">Dentro de esta categoría, crear una clase denominada 
+    ficha. </p>
+  <p align="left">Conviene utilizar algún esquema organizado de categorías 
+    de métodos, como se vio en el juego de los animales.</p>
+  <p align="left">Si nos inspiramos en la categoría morph del Squeak 3.2 
+    vemos lo siguiente:</p>
+  <p align="left"><img src="Ejercicios2002_files/Categorymorph.gif" align="left" height="447" width="122">No 
+    siempre podremos utilizar estas categorías y podemos crear las nuestras, 
+    pero tratemos de ajustarnos a este tipo de vocabulario común.</p>
+  <p align="left">Podemos utilizar access para el ingreso y recuperación 
+    de los valores de las variables de instancia</p>
+  <p align="left">Utilizando el mismo código del juego de los animales</p>
+  <p align="left"><font size="4"><span class="codigo">nombre:unaCadena<br>
+    &#8220;Inicializa el nombre del receptor a unaCadena&#8221;<br>
+    nombre := unaCadena</span></font></p>
+  <p align="left"><img src="Ejercicios2002_files/Ejercicios.gif" height="303" width="607"></p>
+  <p align="left">Aqui vemos la ejecución de este método..</p>
+  <p align="left">Pero si remarcamos nombre y lo reemplazamos por email, al ejecutar 
+    aparece</p>
+  <p align="left"><img src="Ejercicios2002_files/debuger.gif" align="left" height="161" width="452">Aquí 
+    hacemos una pausa.</p>
+  <p align="left">Nos ponemos de pie y repetimos cinco veces.</p>
+  <p align="left">"he conocido a mi mejor amigo, el debugger".</p>
+  <p align="left">Vemos de la primera línea que nuestro <font color="#2f8b20">objeto</font> 
+    Ficha no comprende el <font color="#2f8b20">mensaje</font> email.</p>
+  <p align="left">En este momento nos hemos dado cuenta que no tenemos como guardar 
+    email.</p>
+  <p align="left">Si vamos a la definicion de clase y agregamos email, al aceptar 
+    nos sale un mensaje informando que el sistema recompila Ficha.</p>
+  <p align="left">También debemos agregar jun metodo similar al anterior, 
+    en realidad podemos copiar y pegar reemplazando nombre por la variable deeada, 
+    en nuestro caso email.</p>
+  <p align="left">Pero para empezar a entender porqué nuestro "enamoramiento" 
+    con Squeak, mejoremos el código para validar que el texto ingresado 
+    contenga una arroba @</p>
+  <p class="codigo" align="left">verificaMail: aString <br>
+    self halt. "Magia, acá aparecerá nuesto amigo el debugger"</p>
+  <p class="codigo" align="left">email: aString <br>
+    self verificaMail: aString. "self significa que el mensaje será 
+    interpretado por la misma clase "<br>
+    email _ aString</p>
+  <p align="left">Luego de ejecutar lo que se ve en el workspace, al aparecer 
+    nuestro amigo pulsar debug y marcar como se ve en el dibujo</p>
+  <p align="left"><img src="Ejercicios2002_files/debuger2.gif" height="522" width="599"></p>
+  <p align="left">Si todo ha ido bien , el sistema queda en el halt del método 
+    verificaMail: aquí podemos ver los contenidos de las variables, como 
+    se ve para la cadena ingresada.</p>
+  <p align="left">Pulsamos Step y se remarcará<font color="#2f8b20"> findString: 
+    '@'</font></p>
+  <p align="left">Pulsamos Send y podremos seguir el envío del mansaje 
+    findString: '@' al objeto aString.</p>
+  <p align="left">findString: subString <br>
+    "Answer the index of subString within the receiver, starting at start. 
+    If <br>
+    the receiver does not contain subString, answer 0."<br>
+    ^ self findString: subString startingAt: 1</p>
+  <p align="left">Sucesivos Step y Send e ir mirando que valores se van guardando 
+    en los distintos objetos</p>
+  <p align="left">En nuestro caso en error se guardará 7.</p>
+  <p align="left">Si prosiguieramos con Proceed, haría todos los pasos 
+    y no veríamos nada que nos indique si hubo o no error.</p>
+  <p align="left">Como cuando no encuentra la arroba en error queda un cero, podemos 
+    hacer que salga un cartel que diga que no econtró la arroba.</p>
+  <p align="left">Si cuiando entra al debug, dentro del mismo agregamos el siguiente 
+    código y aceptamos,</p>
+  <p class="codigo" align="left">error = 0<br>
+    ifTrue: [PopUpMenu inform: 'No encontró una arroba ']</p>
+  <p align="left">Además le podemos cambiar el contenido al objeto, <font color="#ed181e">haciendo 
+    lo que no se debe </font>de manera que en el panel quede</p>
+  <p align="left">aString 'pepitosqueakros.org'</p>
+  <p align="left">Dentro del debug hacemos Restart. Naturalmente si el texto tiene 
+    arroba no sale ningún cartel.</p>
+  <p align="left">Y vemos como nuestro pobre pepito sobrevive a estas herejías, 
+    mostrando correctamente el carterl</p>
+  <p align="left">&nbsp;</p>
+  <!-- #EndEditable -->
+<p>&nbsp; </p>
+  </center>
+<p></p>
+<h1>
+  <center>
+  </center>
+</h1>
+<h5> 
+  <center>
+  </center>
+</h5>
+<p>
+
+</p><hr> <p>
+
+</p><center>
+    <!-- #BeginEditable "Navegar" --><a href="TOC.html"><img src="Ejercicios2002_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="Ejercicios2002.html"><img src="Ejercicios2002_files/Top.gif" border="0" height="30" width="37"></a> 
+    <a href="Morphs.html"><img src="Ejercicios2002_files/Play.gif" border="0" height="21" width="55"></a><!-- #EndEditable --> 
+  </center>
+
+<!-- #EndTemplate --><!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="Ejercicios2002_files/mc.js"></script><script language="JavaScript" src="Ejercicios2002_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="Ejercicios2002_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288509" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="Ejercicios2002_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

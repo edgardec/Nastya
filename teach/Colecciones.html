@@ -1,0 +1,538 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- #BeginTemplate "/Templates/DescubriendoSqueak.dwt" --><!-- #BeginEditable "doctitle" --> 
+<title>DescubriendoSqueak</title>
+<!-- #EndEditable -->
+</head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p> 
+</p><center>
+  <p><img src="Colecciones_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> </p>
+  <!-- #BeginEditable "MiTexto" -->
+  <div align="left">
+    <h1 align="center">Colecciones (autor Andrés Otaduy)</h1>
+    <p>&nbsp;</p>
+    <p>En este Workspace se presentan las clases mas emblematicas de Colecciones 
+      de la libreria de clases de Squeak en particular y Smalltalk en gral. <br>
+      Al terminar de jugar en este Workspace Ud. Tendra los conocimientos fundamentales 
+      del manejo de colecciones de objetos en el Ambiente Smalltalk.<br>
+      Qué es una Colección ? <br>
+      Una colección es un objeto que se usa para guardar otros objetos, de diferentes 
+      maneras.<br>
+      Para relacionarlos con conceptos de otros paradigmas podriamos menicinar 
+      algunos equivalentes, como por ejemplo los arreglos en programación estructurada, 
+      las tablas en el modelo relacional, las pilas en lógica, o las listas en 
+      procesamiento de listas.<br>
+      La mayoría de las colecciones se encuentran en la jerarquía de la clase 
+      Collection.<br>
+      "Evaluar la siguiente expresión para ver la jerarquía con (Alt-d)"<br>
+      Collection browseHierarchy.<br>
+      Para nuestra suerte existen muchos tipos de colecciones en Smalltalk, cada 
+      una de ellas apropiada para diferentes usos. <br>
+      Además las colecciones comparten un protocolo en común, que nos permite 
+      realizar diversas operaciones sobre ellas como por ejemplo, preguntar su 
+      tamaño, realizar una acción para cada uno de sus elementos, seleccionar 
+      una subcolección de elementos que respondan a algun criterio, generar una 
+      colección con el resultado de algun cálculo para cada elemento de la colección 
+      original, buscar un elemento, etc. Mas tarde volveremos sobre estos temas.<br>
+      "Para saber la cantidad exacta de tipos de colecciones disponibles 
+      evaluar:"<br>
+      Collection allSubclasses size. "Alt-p"<br>
+      Como vemos existen VARIOS tipos de Colecciones en Smalltalk<br>
+      Vamos a ver algunas de las mas utilizadas en el sistema.<br>
+      <br>
+      Array.<br>
+      Interval.<br>
+      OrderedCollection.<br>
+      SortedCollection.<br>
+      Set.<br>
+      Bag.<br>
+      Dictionary.<br>
+      <br>
+      1) Array<br>
+      Los objetos Array son colecciones de lonigtud fija que pueden contener cualquier 
+      tipo de objeto, y que los mantienen indexados por un número entero, comenzando 
+      por el uno. Los arrays ademas pueden ser creados de manera literal, si 
+      solo contienen objetos literales.<br>
+      Ej: <br>
+      Array literal:<br>
+      #( 1 2 'unArray' #pepe $&amp;).<br>
+      Creación del mismo Array programaticamente.<br>
+      |unArray|<br>
+      unArray _ Array new: 5.<br>
+      unArray at: 1 put: 1;<br>
+      at:2 put: 2;<br>
+      at: 3 put: 'unArray';<br>
+      at: 4 put: #pepe;<br>
+      at: 5 put: $&amp;.<br>
+      unArray . "Alt-p"<br>
+      Si intentamos acceder a un elemento que no este dentro de los límites del 
+      array este se quejara con un error.<br>
+      Ej:<br>
+      #('pepe' 'juan' Squeak) at: 4. "Alt-d" <br>
+      <br>
+      2) Interval<br>
+      Interval es una colección que guarda un intervalo de numeros con un límite 
+      superior uno inferior y un paso.<br>
+      "Creación de un Interval programaticamente" <br>
+      |unInterval|<br>
+      unInterval _ Interval from: 10 to: 20 by: 0.1.<br>
+      unInterval size. "Alt-p"<br>
+      <br>
+      "Algunas alternativas"<br>
+      |unInterval|<br>
+      unInterval _ 10 to: 20 by: 0.1.<br>
+      unInterval size. "Alt-p"<br>
+      <br>
+      |unInterval|<br>
+      unInterval _ Interval from: 20 to: 10 by: -0.5.<br>
+      unInterval size. "Alt-p"<br>
+      3) OrderedCollection<br>
+      Una OrderedCollection es una colección que tiene un orden, o secuencia, 
+      pero este orden responde solo al orden en que se agregaron y quitaron los 
+      elementos, ademas la OrderedCollection no tiene límites de tamaño, simplemente 
+      crecera, o se achicara tanto como lo necesitemos. Mantiene a sus elementos 
+      indexados por enteros comenzando desde el 1 al Igual que Array. Eso si, si 
+      le pedimos un elemento que no tiene también se queja.<br>
+      "Creación de una OrderedCollection programaticamente"<br>
+      |unaOrderedCollection|<br>
+      unaOrderedCollection _ OrderedCollection new.<br>
+      unaOrderedCollection add: 1 ; <br>
+      add: 2 ;<br>
+      add: 'Squeak' ;<br>
+      add: #Smalltalk ; <br>
+      add: $%.<br>
+      unaOrderedCollection . "Alt-p, o Alt-i ".<br>
+      4) SortedCollection<br>
+      Una SortedCollection es analoga a la OrderedCollection con la excepción 
+      de que el orden de la SortedCollection esta determinado por un criterio 
+      definido por nosotros, llamado sortBlock. El bloque de orden por defecto 
+      es de menor a mayor.<br>
+      Ej: <br>
+      |unaSortedCollection|<br>
+      unaSortedCollection _ SortedCollection new.<br>
+      unaSortedCollection add: 'Objectos' ; <br>
+      add: 'Squeak' ;<br>
+      add: 'SqueakRos' ;<br>
+      add: 'Smalltalk' ; <br>
+      add: 'SortedCollection';<br>
+      add: 'Bag';<br>
+      add:'Array'.<br>
+      unaSortedCollection ."Alt-p o Alt-i ".<br>
+      <br>
+      "Otro ejemplo ordenando por la segunda letra de cada palabra"<br>
+      Ej: <br>
+      |unaSortedCollection|<br>
+      unaSortedCollection _ SortedCollection sortBlock:[:a :b| a second &lt; b 
+      second] .<br>
+      unaSortedCollection add: 'Objectos' ; <br>
+      add: 'Squeak' ;<br>
+      add: 'SqueakRos' ;<br>
+      add: 'Smalltalk' ; <br>
+      add: 'SortedCollection';<br>
+      add: 'Bag';<br>
+      add:'Array'.<br>
+      unaSortedCollection . "Alt-p, o Alt-i ".<br>
+      Vale decir que dentro del sortBlock, podemos poner cualquier comparación 
+      que se nos ocurra, a experimentar !!<br>
+      5) Set<br>
+      Un Set es como un conjunto matemático, no tiene ningun orden, y no se admiten 
+      elementos repetidos, ademas no tiene indexados sus elementos, crecerá y 
+      se achicará de acuerdo nuestras necesidades como la Ordered y SortedCollection.<br>
+      |unSet|<br>
+      unSet _ Set new.<br>
+      unSet add: 1 ; <br>
+      add: 2; <br>
+      add: 'Squeak' ;<br>
+      add: #Smalltalk ; <br>
+      add: $%; <br>
+      add: $%;<br>
+      add: 'Squeak' ; <br>
+      add: 'Pepe';<br>
+      remove: #Smalltalk.<br>
+      unSet . "Alt-p, o Alt-i ".<br>
+      <br>
+      7) Bag<br>
+      Un Bag, del inglés bolsa, es un contenedor de objetos que crece y decrece 
+      de tamaño a voluntad como los Set y demases, pero esta optimizada para 
+      guardar elementos repetidos y contar las ocurrencias de alguno de estos, 
+      como las bolsas no mantiene ningun orden, los elementos se mezclan al entrar 
+      en ella.<br>
+      |unBag|<br>
+      unBag _ Bag new.<br>
+      unBag add: 1 ; <br>
+      add: 2; <br>
+      add: 'Squeak' ;<br>
+      add: #Smalltalk ; <br>
+      add: $%; <br>
+      add: $%;<br>
+      add: 'Squeak' ; <br>
+      add: 'Pepe';<br>
+      remove: #Smalltalk.<br>
+      unBag inspect ; occurrencesOf: 'Squeak' . "Alt-p ".<br>
+      8) Dictionary <br>
+      un Dictionary es una colección que mantiene a sus elementos indexados por 
+      cualquier otro objeto, manteniendo pares de claves (keys) y valores (values), 
+      como las tablas en el modelo relacional. La diferencia es que la clave es 
+      un unico objeto y este no puede estar repetido en el mismo Dictionary, si 
+      se agrega un elemento con la misma clave se sobreescribira sobre el elemento 
+      anterior.<br>
+      |unDictionary|<br>
+      unDictionary _ unDictionary new: 5.<br>
+      unDictionary at: 'juan' put: 1;<br>
+      at:'pepe' put: 2;<br>
+      at: 10000 put: 'unArray';<br>
+      at: #200 put: #pepe;<br>
+      at: $c put: $&amp;.<br>
+      unDictionary . "Alt-p".<br>
+      <br>
+      "Podemos pedirle las claves"<br>
+      |unDictionary|<br>
+      unDictionary _ unDictionary new: 5.<br>
+      unDictionary at: 'juan' put: 1;<br>
+      at:'pepe' put: 2;<br>
+      at: 10000 put: 'unArray';<br>
+      at: #200 put: #pepe;<br>
+      at: $c put: $&amp;.<br>
+      unDictionary keys. "Alt-p"<br>
+      "O los valores"<br>
+      |unDictionary|<br>
+      unDictionary _ unDictionary new: 5.<br>
+      unDictionary at: 'juan' put: 1;<br>
+      at:'pepe' put: 2;<br>
+      at: 10000 put: 'unArray';<br>
+      at: #200 put: #pepe;<br>
+      at: $c put: $&amp;.<br>
+      unDictionary values. "Alt-p"<br>
+      "el elemento correspondiente a una clave"<br>
+      |unDictionary|<br>
+      unDictionary _ unDictionary new: 5.<br>
+      unDictionary at: 'juan' put: 1;<br>
+      at:'pepe' put: 2;<br>
+      at: 10000 put: 'unArray';<br>
+      at: #200 put: #pepe;<br>
+      at: $c put: $&amp;.<br>
+      unDictionary at:'pepe'. "Alt-p"<br>
+      Los diccionarios se usan muchisimo en Smalltalk, con decir que el mismisimo 
+      Smalltalk es un Dictionary un poco especial, sino proba de evaluar los siguiente:<br>
+      Smalltalk class "Alt-p".<br>
+      o mejor.<br>
+      Smalltalk "Alt-i".<br>
+      <br>
+      Bueno hasta aca todo muy lindo, tenemos un monton de colecciones para complicarnos 
+      la vida a la hora de elejir cual vamos a usar para guardar nuestros objetos 
+      preferidos. <br>
+      Pero cuales eran esas cosas que se podian hacer con cualquiera de las colecciones 
+      ??!.<br>
+      Bueno, de primera cualquier colección de las que nombramos se puede convertir 
+      en cualquiera de las otras (con excepción de Dictionary), haciendo que la 
+      nueva colección cumpla con la definición de la colección que nosotros queramos.<br>
+      por ejemplo:<br>
+      "Array -&gt; OrderedCollection"<br>
+      #( 1 2 3 'pepe' Squeak $p) asOrderedCollection add: 'Juan' ; yourself "Alt-p 
+      o Alt-i"<br>
+      "Array -&gt; Set -&gt; SortedCollection "<br>
+      #( 110000 1 1 9999 1 1 1 1 1 2 2 2 2 2 2 2 5 5 5 5 5 5 6 54 33 6 4 ) asSet 
+      asSortedCollection: [:a :b | a&gt;b]. "Alt-p o Alt-i"<br>
+      <br>
+      "OrderedCollection -&gt; Bag -&gt; OrderedCollection"<br>
+      |unaOrderedCollection|<br>
+      unaOrderedCollection _ OrderedCollection new.<br>
+      unaOrderedCollection add: 1 ; <br>
+      add: #Smalltalk ; <br>
+      add: 2 ;<br>
+      add: #Smalltalk ; <br>
+      add: #1 ; <br>
+      add: #Smalltalk ; <br>
+      add: $%.<br>
+      unaOrderedCollection asBag asOrderedCollection. "Alt-p o Alt-i"<br>
+      "Ojo,que a veces la conversión conlleva una pérdida de información"<br>
+      "Interval -&gt;Array"<br>
+      (1 to: 30 by: 0.1) asArray . "Alt-p o Alt-i"<br>
+      "Etcetera -&gt; Etcetera ! :-) " Además de las conversiones hay 
+      mas operaciones interesantes que se pueden realizar sobre las colecciones. 
+      <br>
+      Algunas preguntas comunes podrian ser.<br>
+      <br>
+      Si esta vacía:<br>
+      #( 1 2 3) isEmpty. "Alt-p"<br>
+      Set new isEmpty "Alt-p"<br>
+      El tamanio:<br>
+      <br>
+      #( 1 1 1 1 1 ) asSet size. "Alt-p"<br>
+      <br>
+      Si incluye algun elemento:<br>
+      |unBag|<br>
+      unBag := #( 'Andres' 'Martin' 'Xavier' 'Alejandro' 'Diego') asBag .<br>
+      unBag remove:'Andres'.<br>
+      unBag includes: 'Andres'. "Alt-p"<br>
+      Ademas existe una manera común de enumerar a todas las colecciones.<br>
+      1) El #do:, con este mensaje nos despedimos definitivamente de los viejos 
+      "para i _ 1 a 20". EL mensaje #do: esta implementado para todas 
+      (ahora si) las colecciones que son subclases de Collection. Lo que hace 
+      este mensaje es evaluar un bloque para cada uno de los elementos de la colección 
+      que recibe el mensaje en el orden que define la colección (si es que lo 
+      define).<br>
+      Vamos con unos ejemplos:<br>
+      Si queremos inspeccionar cada uno de los elementos de un Array por ejemplo 
+      podriamos hacer lo siguiente:<br>
+      #( 9999999 'pepe' 'juan' ) do:[:unElemento | unElemento inspect]. "Alt-d".<br>
+      " o si queremos agregar a mano los elementos de 2 colecciones a un 
+      Set para eliminar repetidos y ya que estamos ordenarlos."<br>
+      |coleccion1 coleccion2 unSet| <br>
+      coleccion1 _ #( 'Martin' 'Julian' 'Andres' 'Pedro').<br>
+      coleccion2 _ #( 'Julian' 'Pepe' 'Andres' 'Pablo' 'Javier').<br>
+      unSet _ Set new.<br>
+      coleccion1 do:[:unString | unSet add: unString].<br>
+      coleccion2 do:[:unString | unSet add: unString].<br>
+      unSet asSortedCollection. "Alt-p"<br>
+      Podemos anidar los #do: para obtener mas poder !!<br>
+      |suma|<br>
+      suma _ 0.<br>
+      #( (1 2 3)<br>
+      (4 5 6 7)<br>
+      ( 1 98) ) do:[:unaFila | <br>
+      unaFila do:[:unElemento | suma _ suma + unElemento ]<br>
+      ].<br>
+      suma. "Alt-p"<br>
+      "Tener en cuenta que la matriz tiene filas de distintos tamanios! con 
+      unos 'para' como harias ?!?"<br>
+      <br>
+      "Y si la coleccion esta vacia?"<br>
+      #() do:[:i |i inspect ] . "Alt-p"<br>
+      "Y el #do:, que de paso es muy inteligente no hace nada, asi que nada 
+      de probar si la colección esta vacía antes de hacerle cosas a sus elementos"<br>
+      2) Despues viene el caso de las consultas, es muy común tener que seleccionar 
+      ciertos elementos de una coleccion por algun criterio determinado, para 
+      despues hacer algo con estos objetos, para esto contamos con el inavluable 
+      #select:, este mensaje esta implementado en terminos del #do: con lo cual 
+      <br>
+      esta disponible para todas las colecciones. El mensaje #select: devuelve 
+      una colección que suele ser del mismo tipo que la colecición que recibe el 
+      mensaje pero que solo contiene los elementos que cumplen con el criterio 
+      especificado en el bloque que se le pasa como parámetro.<br>
+      A esta altura ya sabemos como seleccionar elementos de una colección, lo 
+      podriamos hacer usando simplemente el mensaje #do: de la siguiente forma<br>
+      |unaColeccion coleccionFiltrada|<br>
+      unaColeccion _ OrderedCollection withAll: #( 7 8 9 5 4 67 2 65 -1 -10). 
+      <br>
+      "#withAll: devuelve una coleccion con los elementos pasados como parametro"<br>
+      coleccionFiltrada _ OrderedCollection new.<br>
+      unaColeccion do:[:unElemento | unElemento &gt; 7 ifTrue:[ coleccionFiltrada 
+      add: unElemento] ].<br>
+      coleccionFiltrada. "Alt-p"<br>
+      <br>
+      De la manera anterior logramos filtrar una colección de una manera bastante 
+      simple, ahora examinemos como sería con el #select: <br>
+      |unaColeccion |<br>
+      unaColeccion _ OrderedCollection withAll: #( 7 8 9 5 4 67 2 65 -1 -10). 
+      <br>
+      unaColeccion select:[:unElemento | unElemento &gt; 7 ]. "Alt-p"<br>
+      Bastante mas simple eh! <br>
+      Vale decir que en el bloque de criterio podemos incluir cualquier cosa, 
+      veamos:<br>
+      "Selecciona los nombres que empiezan y terminan con vocal"<br>
+      |unaColeccion| <br>
+      unaColeccion _ #( 'Andres' 'Martin' 'Cintia' 'Xavier' 'Irina' 'Alejandro' 
+      'Diego' 'Ana' 'Ema' ).<br>
+      unaColeccion select:[:unString| unString first isVowel and:[ unString last 
+      isVowel ] ]. "Alt-p"<br>
+      <br>
+      Otro ejemplo, ahora de mientras calculamos el tamaño promedio de los nombres.<br>
+      |unaColeccion tamanio| <br>
+      unaColeccion _ #( 'Andres' 'Martin' 'Cintia' 'Xavier' 'Irina' 'Alejandro' 
+      'Diego' 'Ana' 'Ema' ).<br>
+      (unaColeccion select:[:unString| tamanio _ tamanio + unString size. <br>
+      unString first isVowel and:[ unString last isVowel ] ]) inspect. <br>
+      "El valor que devuelve el bloque es el de la última sentencia dentro 
+      de el"<br>
+      tamanio/ unaColeccion size . "Alt-p"<br>
+      <br>
+      3) Habiamos hablado antes de generar una colección paralela con el resultado 
+      de algun cálculo para cada elemento de la colección. Esto se puede lograr 
+      facilmente con el mensaje #collect: este mensaje tambien esta basado en 
+      el #do:, con lo cual esta disponible para todas las colecciones, inclusive 
+      si nosotros creamos alguna nueva, solo tendriamos que implementar el #do: 
+      para nuestra clase y el #collect: y #select: vendrian gratis !<br>
+      Bueno vamos con los ejemplos que son lo mas divertido!!<br>
+      "Los cuadrados del 1 al 30"<br>
+      | unaColeccion | <br>
+      unaColeccion _ Interval from: 1 to: 30.<br>
+      unaColeccion collect:[:unNumber | unNumber squared] . "Alt - p".<br>
+      <br>
+      "Los factoriales del 1 al 30"<br>
+      | unaColeccion | <br>
+      unaColeccion _ Interval from: 1 to: 30.<br>
+      unaColeccion collect:[:unNumber | unNumber factorial] . "Alt - p".<br>
+      <br>
+      "Una prueba de que los factoriales calculan con precision total"<br>
+      | unaColeccion | <br>
+      unaColeccion _ Interval from: 1 to: 100.<br>
+      unaColeccion collect:[:unNumber | unNumber factorial / (unNumber -1) factorial] 
+      . "Alt - p".<br>
+      <br>
+      "Podemos anidar los #collect:, para obtener las tablas de multiplicar"<br>
+      | unaColeccion | <br>
+      unaColeccion _ Interval from: 1 to: 9.<br>
+      unaColeccion collect:[:unNumber | <br>
+      unNumber -&gt;<br>
+      (unaColeccion collect:[:otroNumber | unNumber * otroNumber ])<br>
+      ]. "Alt - p".<br>
+      "Nota: el mensaje #-&gt; crea un objeto Association, con el receptor 
+      como clave (key) y el parámetro como valor (value) "<br>
+      4) Una cuestión común es la busqueda de algun elemento por algun criterio, 
+      esta puede hacerse usando el mensaje #detect: o #detect:ifNone:, este mensaje 
+      devuelve el primer elemento que encuentre que cumple con el criterio especificado 
+      y si no encuentra ninguno genera un Error, la variante #detect:ifNone: permite 
+      proporcionar un bloque que se ejecutara en el caso de que no se encuentre 
+      nungun elemento.<br>
+      Ejemplos: <br>
+      "Devuelve el primer nombre que empiece con consonante y que termine 
+      en la letra $a"<br>
+      | unaColeccion | <br>
+      unaColeccion _ #( 'Pepe' 'Jose' 'Javier' 'Pedro' 'Ana' 'Maria' 'Beatriz' 
+      'Adriana' ).<br>
+      unaColeccion detect:[:unString | <br>
+      unString first isVowel not and:[ unString last = $a ] <br>
+      ].<br>
+      | unaColeccion | <br>
+      unaColeccion _ -100 to: 100 by: (0.1).<br>
+      unaColeccion detect:[:unNumber | <br>
+      unNumber &gt; 0<br>
+      ].<br>
+      "Devuelve true si la matriz es probabilistica (todas sus filas suman 
+      1) " <br>
+      | unaMatriz suma esProbabilistica| <br>
+      unaMatriz _ #( ( 0.1 0.6 0.3) <br>
+      ( 0.2 0.1 0.7) <br>
+      ( 0.3 0.3 0.4) ).<br>
+      esProbabilistica _ false.<br>
+      "Detectamos la excepcion a la regla"<br>
+      unaMatriz detect:[:unaFila |<br>
+      suma _ 0.<br>
+      unaFila do:[:unElemento | suma _ suma + unElemento ].<br>
+      suma ~= 1 ]<br>
+      ifNone:[ esProbabilistica _ true].<br>
+      esProbabilistica. "Alt - p""Modificando un poco el ejemplo 
+      antrerior podriamos saber cual no cumple con la condición " <br>
+      | unaMatriz suma esProbabilistica filaMal| <br>
+      unaMatriz _ #( ( 0.1 0.6 0.3) <br>
+      ( 0.2 0.2 0.7) <br>
+      ( 0.3 0.3 0.4) ).<br>
+      esProbabilistica _ false.<br>
+      "Detectamos la excepcion a la regla"<br>
+      filaMal _ unaMatriz detect:[:unaFila |<br>
+      suma _ 0.<br>
+      unaFila do:[:unElemento | suma _ suma + unElemento ].<br>
+      suma ~= 1 ]<br>
+      ifNone:[ esProbabilistica _ true].<br>
+      esProbabilistica ifFalse:[ filaMal inspect].<br>
+      esProbabilistica "Alt - p"<br>
+      " El #detect:ifNone: puede usarse para devolver un objeto por defecto 
+      en caso de no encontrarse lo que buscamos"<br>
+      | unaColeccion nombreClase| <br>
+      unaColeccion _ Bag withAll: #( Collection Integer Character Date Array ).<br>
+      nombreClase _unaColeccion detect:[:nombreDeClase | 1.0 class name = elemento 
+      ] ifNone:[ #Object].<br>
+      nombreClase. "Alt-p"<br>
+      5) Es muy común también tener que hacer cálculos que sean la acumulación 
+      del resultado de un mensaje en particular para los elementos de una colección, 
+      para esto se utiliza comunmente el mensaje #inject:into. Este mensaje se 
+      le envia a la colección proporcionando el valor inicial del acumulador y 
+      la operacion a acumular, una forma general del envio del mesaje seria algo 
+      asi:<br>
+      unaColeccion inject: valorInicial into:[:acumulador :elemento | ].<br>
+      para el primer elemento de la coleccion la variable 'acumulador' del bloque 
+      tomara el valor de 'valorInicial' y 'elemento' contendra el primer elemento 
+      de la coleccion.<br>
+      En las sucesivas iteraciones, 'acumulador' tomara el valor del resultado 
+      del bloque y 'elemento' el elemento correspondiente a esa iteracion.<br>
+      Un ejemplo:<br>
+      " La sumatoria de los elementos de un arreglo"<br>
+      #( 9 8 7 5 6 4 3 1 2) inject: 0 into:[:suma :elemento | suma + elemento 
+      ] "Alt -p".<br>
+      " La productoria de los elementos de un arreglo"<br>
+      #( 9 8 7 5 6 4 3 1 2) inject: 1 into:[:suma :elemento | suma * elemento 
+      ] "Alt -p".<br>
+      <br>
+      "EL promedio" <br>
+      |unArreglo| <br>
+      unArreglo_ #( 9 8 7 5 6 4 3 1 2) .<br>
+      (unArreglo inject: 1 into:[:suma :elemento | suma + elemento ]) / unArreglo 
+      size "Alt -p".<br>
+      " Este mensaje es muy practico ya que suele simplificar los metodos 
+      de calculo eliminando la necesidad de la variable temporal de acumulacion"	
+      <br>
+      "Unos ejemplos mas en General"<br>
+      "Obtener la frecuencia de cada uno de los caracteres de un String"<br>
+      | unString unBag resultado |<br>
+      unString_ ' Vamos a probar cuantas veces aparece cada letra en esta cadena, 
+      de paso vamos a usar las cosas que aprendimos hasta ahora'.<br>
+      unBag _unString asBag.<br>
+      resultado _ (unString asSet collect:[:unCaracter | unCaracter -&gt; (unBag 
+      occurrencesOf: unCaracter) ]) asSortedCollection:[:a :b| a value &gt; b 
+      value] . "Alt-p"<br>
+      " Estamos usando, conversion de coleccion y #collect: "<br>
+      "Interseccion de 2 colecciones"<br>
+      |coleccion1 coleccion2| <br>
+      coleccion1 _ 'Hola que tal '.<br>
+      coleccion2 _ 'A mi bien y a vos que tal'.<br>
+      (coleccion1 select:[:unCaracter | coleccion2 includes: unCaracter ]) asSet.<br>
+      " Estamos usando, conversion de coleccion y #select:: "<br>
+      "Aca tenemos que poner mas ejemplos" <br>
+      <br>
+      Las Colecciones que acabamos de ver tienen ademas un protocolo mas extenso 
+      dependiendo a la familia a la que pertenezcan, cada coleccion puede pertenecer 
+      a mas de una familia<br>
+      Colecciones Secuenciables<br>
+      Interval<br>
+      Array <br>
+      OrderedCollection<br>
+      SortedCollection<br>
+      Estas colecciones tienen a sus elementes ordenados de acuerdo con una determinada 
+      secuencia, se les puede pedir el primer elemento, el último, el elemento 
+      x, que reemplacen el elemento de la posición x por el elemento y, y demas 
+      cuestiones de acuerdo a su secuencia.<br>
+      Mensajes interesantes : <br>
+      #first, #last #at:put:, #before, #after, #, (la coma es la concatenación), 
+      #copyFrom:to:, atRandom, #indexOf: etc.<br>
+      <br>
+      Colecciones de Tamanio Variable.<br>
+      Set<br>
+      Dictionary<br>
+      OrderedCollection<br>
+      SortedCollection<br>
+      Bag<br>
+      Estas colecciones permiten agregar y quitar elementos libremente, si ademas 
+      son Colecciones Secuenciables permiten agregar despues de o antes de un 
+      elemento.<br>
+      Mensajes interesantes:<br>
+      #add: #remove: #addFirst: #addLast: #removeFirst #addAll: #removeAll: #add:withOccurrences:, 
+      etc<br>
+      Podrian clasificarse de otras maneras, pero con esto tenemos los conocimientos 
+      basicos como para browsear la jerarquia sin tener demasiados problemas.{MiTexto}</p>
+  </div>
+  <!-- #EndEditable --> 
+  <p>&nbsp; </p>
+</center>
+<p></p>
+<h1> 
+  <center>
+  </center>
+</h1>
+<h5> 
+  <center>
+  </center>
+</h5>
+<p> 
+</p><hr>
+<p> 
+  </p><center>
+    <!-- #BeginEditable "Navegar" --><a href="TOC.html"><img src="Colecciones_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="Colecciones.html"><img src="Colecciones_files/Top.gif" border="0" height="30" width="37"></a><!-- #EndEditable --> 
+  </center>
+<!-- #EndTemplate -->
+<!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="Colecciones_files/mc.js"></script><script language="JavaScript" src="Colecciones_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="Colecciones_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288489" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="Colecciones_files/serv.gif" alt="1" height="1" width="1">
+</body></html>

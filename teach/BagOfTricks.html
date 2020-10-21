@@ -1,0 +1,167 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- #BeginTemplate "/Templates/DescubriendoSqueak.dwt" --><!-- #BeginEditable "doctitle" --> 
+<title>DescubriendoSqueak</title>
+<link rel="stylesheet" href="BagOfTricks_files/Estilos.css" type="text/css">
+<!-- #EndEditable --></head><body bgcolor="#ffffcc">
+<!-- following code added by server. PLEASE REMOVE -->
+<!-- preceding code added by server. PLEASE REMOVE -->
+<p>
+  </p><center>
+    
+  <p><img src="BagOfTricks_files/squeak.gif" x-sas-useimagewidth="" x-sas-useimageheight="" align="bottom" height="60" width="86"> </p>
+  <!-- #BeginEditable "MiTexto" --> 
+  <h1>BagOfTricks</h1>
+  <p align="left">Aquí podrán encontrar pequeños trucos que 
+    tal vez le interesen</p>
+  <p align="left">Como construir una lista de morphs a partir de imagenes</p>
+  <p align="left">Debemos poseer un directorio con una lista de archivos de imagenes 
+    con los formatos que lee el Squeak, ej. .gif o .jpg que son los mas utilizados 
+    en Internet</p>
+  <p align="left">El dibujo que se ve es lo que se obtiene.</p>
+  <p align="left">Los iconos estan tomados del VisualWorks y obviamente si se 
+    acciona los botones resultantes, daría error al no existir métodos 
+    implementados.</p>
+  <p class="codigo" align="left"><b>hacerBotones</b><br>
+    <br>
+    | slash oldFolder newFolder listaArchivos archivo pos aFileName f esteBoton 
+    fileStream selector cadena |<br>
+    slash _ FileDirectory slash. " Toma el separador de directorios, no es 
+    el mismo en todos los OS"<br>
+    oldFolder _ FileDirectory default. " Guarda el directorio de arranque 
+    "<br>
+    newFolder _ FileList2 modalFolderSelector. "Invoca la ventana de dialogo 
+    para seleccionar directorio "<br>
+    listaArchivos _ newFolder fileNamesMatching: '*.gif'. " Solo nos interesan 
+    los .gif para este ejercicio "<br>
+    newFolder _ newFolder pathName , slash.<br>
+    FileDirectory setDefaultDirectory: newFolder. "Seteamos al directorio 
+    elegido "<br>
+    1<br>
+    to: listaArchivos size "Recorremos la lista de archivos que concuerdan 
+    con el criterio elegido "<br>
+    do: [:i | <br>
+    archivo _ listaArchivos at: i.<br>
+    pos _ archivo findString: '.'.<br>
+    aFileName _ (archivo copyFrom: 1 to: pos)<br>
+    , 'morph'. " Creamos un nuevo nombre de archivo "<br>
+    cadena _ '#'<br>
+    , (archivo copyFrom: 1 to: pos).<br>
+    selector _ Symbol readFromString: cadena. "Creamos un símbolo a partir 
+    del nombre de archivo "<br>
+    f _ Form fromFileNamed: archivo. "Leemos el archivo dentro de un Form 
+    "<br>
+    esteBoton _ IconicButton new. "Creamos una instancia de IconicButton 
+    "<br>
+    esteBoton initialize. "La inicializamos "<br>
+    esteBoton labelGraphic: f. "Hacemos que utilice nuestro gráfico "<br>
+    esteBoton target: self. "Por defecto los mensajes serán enviados 
+    a la clase Utilitarios "<br>
+    esteBoton actionSelector: selector." Y la acciona a ejecutar es el nombre 
+    del botón "<br>
+    fileStream _ FileStream newFileNamed: aFileName. "Abrimos un archivo 
+    de salida y grabamos "<br>
+    fileStream fileOutClass: nil andObject: esteBoton].<br>
+    FileDirectory setDefaultDirectory: oldFolder pathName "Al teminar volvemos 
+    al directorio default "</p>
+  <p class="codigo" align="left">Una vez creados nuestros botones, deseamos construir 
+    una paleta con los mismos.</p>
+  <p class="codigo" align="left">Al costado del código se ve la paleta obtenida</p>
+  <p class="codigo" align="left"><b><img src="BagOfTricks_files/paleta.gif" align="left" height="352" width="44">hacerPaleta</b><br>
+    | frame buttons slash oldFolder newFolder listaArchivos archivo newMorph n 
+    max |<br>
+    frame _ AlignmentMorph newColumn.<br>
+    slash _ FileDirectory slash.<br>
+    oldFolder _ FileDirectory default.<br>
+    newFolder _ FileList2 modalFolderSelector.<br>
+    listaArchivos _ newFolder fileNamesMatching: '*.morph'.<br>
+    newFolder _ newFolder pathName , slash.<br>
+    FileDirectory setDefaultDirectory: newFolder.<br>
+    buttons _ OrderedCollection new.<br>
+    n _ listaArchivos size.<br>
+    1<br>
+    to: n<br>
+    do: [:i | <br>
+    archivo _ listaArchivos at: i.<br>
+    newMorph _ Utilitarios leerMorph: archivo.<br>
+    <br>
+    buttons add: newMorph].<br>
+    "Add the buttons to the same frame"<br>
+    buttons<br>
+    do: [:each | frame addMorph: each].<br>
+    "Compute the max width"<br>
+    max _ 0.<br>
+    buttons<br>
+    do: [:each | max _ each width max: max].<br>
+    frame openInWorld.<br>
+    FileDirectory setDefaultDirectory: oldFolder pathName</p>
+  <p class="codigo" align="left">Y una variante para obtener una paleta rectangular 
+    seria</p>
+  <p class="codigo" align="left"><b>hacerPaletaDe: botonesAncho</b> <br>
+    | slash oldFolder newFolder listaArchivos archivo newMorph n paleta x y cuenta 
+    maxX maxY |<br>
+    paleta _ PasteUpMorph new.<br>
+    slash _ FileDirectory slash.<br>
+    oldFolder _ FileDirectory default.<br>
+    newFolder _ FileList2 modalFolderSelector.<br>
+    listaArchivos _ newFolder fileNamesMatching: '*.morph'.<br>
+    newFolder _ newFolder pathName , slash.<br>
+    FileDirectory setDefaultDirectory: newFolder.<br>
+    paleta layoutPolicy: nil.<br>
+    paleta hResizing: #rigid.<br>
+    paleta vResizing: #rigid.<br>
+    paleta borderWidth: 2.<br>
+    paleta borderColor: Color black.<br>
+    paleta color: Color gray.<br>
+    maxX _ 0.<br>
+    maxY _ 0.<br>
+    x _ 0.<br>
+    y _ 0.<br>
+    cuenta _ 0.<br>
+    n _ listaArchivos size.<br>
+    1<br>
+    to: n<br>
+    do: [:i | <br>
+    archivo _ listaArchivos at: i.<br>
+    newMorph _ Utilitarios leerMorph: archivo.<br>
+    <br>
+    paleta addMorph: newMorph.<br>
+    cuenta &lt; (botonesAncho + 1)<br>
+    ifTrue: [x _ x + newMorph width.<br>
+    cuenta _ cuenta + 1]<br>
+    ifFalse: [y _ y + newMorph height.<br>
+    x &gt; maxX<br>
+    ifTrue: [maxX _ x].<br>
+    x _ 0.<br>
+    cuenta _ 0.<br>
+    ]].<br>
+    maxX _ maxX + 10 .<br>
+    y _ y + 10.<br>
+    paleta extent: maxX @ y.<br>
+    paleta becomeLikeAHolder.<br>
+    paleta openInWorld. </p>
+  <!-- #EndEditable -->
+<p>&nbsp; </p>
+  </center>
+<p></p>
+<h1>
+  <center>
+  </center>
+</h1>
+<h5> 
+  <center>
+  </center>
+</h5>
+<p>
+
+</p><hr> <p>
+
+</p><center>
+    <!-- #BeginEditable "Navegar" --><a href="TOC.html"><img src="BagOfTricks_files/Back.gif" border="0" height="21" width="55"></a> 
+    <a href="BagOfTricks.html"><img src="BagOfTricks_files/Top.gif" border="0" height="55" width="32"></a> 
+    <!-- #EndEditable --> 
+  </center>
+
+<!-- #EndTemplate --><!-- text below generated by server. PLEASE REMOVE --><script language="JavaScript" src="BagOfTricks_files/mc.js"></script><script language="JavaScript" src="BagOfTricks_files/geov2_001.js"></script><script language="javascript">geovisit();</script><img style="display: none;" src="BagOfTricks_files/visit.gif" border="0">
+<noscript><img src="http://visit.geocities.yahoo.com/visit.gif?ar1248288644" alt="setstats" border="0" width="1" height="1"></noscript>
+<img src="BagOfTricks_files/serv.gif" alt="1" height="1" width="1">
+</body></html>
